@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
-import Chips from '../_components/Categories';
-import Map from '../_components/Map';
+import Chips from '@/app/_components/Categories';
+import Map from '@/app/_components/Map';
 import Photos from './_components/Photos';
 
 export default function Page() {

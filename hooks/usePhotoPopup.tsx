@@ -54,7 +54,7 @@ export default function usePhotoPopup() {
               <div className="py-4 my-4 flex justify-between items-center">
                 <Avatar location={''} />
                 {/*TODO: 로그인 구현*/}
-                <Link href={'/'}>
+                <Link href={'/public'}>
                   <span className="text-xl font-mediums">
                     로그인
                   </span>

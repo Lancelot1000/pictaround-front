@@ -1,5 +1,5 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { createQueryString } from '../_utils/common';
+import { createQueryString } from '@/utils/common';
 
 export default function Component({ data }: { data: Category }) {
   const pathname = usePathname();

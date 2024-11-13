@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import useSideBar from '@/app/_hooks/useSideBar';
+import useSideBar from '@/hooks/useSideBar';
 
 export default function Component() {
 

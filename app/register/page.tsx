@@ -2,9 +2,9 @@
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import Input from '../_components/Input';
-import Form from '../_components/Form';
-import Search from '../_components/Search';
+import Input from '@/app/_components/Input';
+import Form from '@/app/_components/Form';
+import Search from '@/app/_components/Search';
 
 type RegisterForm = {
   imageLocation: string,

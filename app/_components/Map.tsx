@@ -4,7 +4,7 @@ import { useAtomValue } from 'jotai';
 import Script from 'next/script';
 import { useCallback, useEffect, useRef } from 'react';
 
-import { isSideBarOpenAtom } from '../_atom/common';
+import { isSideBarOpenAtom } from '@/atom/common';
 
 const MAP_ID = 'naver-map';
 
