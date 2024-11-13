@@ -1,4 +1,5 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
 import { createQueryString } from '@/utils/common';
 
 export default function Component({ data }: { data: Category }) {
@@ -8,9 +9,8 @@ export default function Component({ data }: { data: Category }) {
 
   const activeCategory = searchParams.get('category');
 
-  // TODO: lat, lng
   const categoryRouter = (category: string) => {
-    router.replace(`${pathname}${createQueryString({ lat: '', lng: '', category: category })}`);
+    router.replace(`${pathname}${createQueryString({ category: category })}`);
   };
 
   return (
