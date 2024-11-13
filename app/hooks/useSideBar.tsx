@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import Avatar from '../app/_components/Avatar';
-import { isSideBarOpenAtom } from '../atom/common';
+import { isSideBarOpenAtom } from '../../atom/common';
+import Avatar from '../_components/Avatar';
 
 export default function useSideBar() {
   const [isOpen, setOpen] = useState(false);
@@ -60,7 +60,7 @@ export default function useSideBar() {
               <div className="py-4 my-4 flex justify-between items-center">
                 <Avatar location={''} />
                 {/*TODO: 로그인 구현*/}
-                <Link href={'/'}>
+                <Link href={'/public'}>
                   <span className="text-xl font-mediums">
                     로그인
                   </span>

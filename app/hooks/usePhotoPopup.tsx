@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { FiX } from '@react-icons/all-files/fi/FiX';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+
 import Avatar from '@/app/_components/Avatar';
 
 export default function usePhotoPopup() {
