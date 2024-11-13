@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { isSideBarOpenAtom } from '@/atom/common';
-import Avatar from '@/app/_components/Avatar';
+import Avatar from '../app/_components/Avatar';
+import { isSideBarOpenAtom } from '../atom/common';
 
 export default function useSideBar() {
   const [isOpen, setOpen] = useState(false);
@@ -51,7 +51,7 @@ export default function useSideBar() {
 
     return (
       createPortal(
-        <div style={{ zIndex: 999999 }}>
+        <div>
           <div className={'absolute w-full h-full bg-[#00000070] animate-fadeIn overflow-hidden'} onClick={close}>
             <nav className={'absolute top-0 right-0 w-[200px] h-full bg-white animate-slideIn p-2 overflow-y-auto'}>
               <div onClick={close} className="flex justify-end">
@@ -60,7 +60,7 @@ export default function useSideBar() {
               <div className="py-4 my-4 flex justify-between items-center">
                 <Avatar location={''} />
                 {/*TODO: 로그인 구현*/}
-                <Link href={'/public'}>
+                <Link href={'/'}>
                   <span className="text-xl font-mediums">
                     로그인
                   </span>
