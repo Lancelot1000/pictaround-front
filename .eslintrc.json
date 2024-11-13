@@ -1,0 +1,50 @@
+{
+  "plugins": [
+    "import"
+  ],
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript"
+  ],
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          [
+            "parent",
+            "sibling"
+          ],
+          "index",
+          "object",
+          "type",
+          "unknown"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "next",
+            "group": "builtin",
+            "position": "before"
+          },
+          {
+            "pattern": "@/core/**",
+            "group": "unknown"
+          },
+          {
+            "pattern": "**/*.css.ts",
+            "group": "unknown",
+            "position": "after"
+          }
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --background: #ffffff;
+    --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+    }
+}
+
+body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+.logo {
+    font-family: "Protest Riot", "Noto Sans KR", sans-serif;
+    font-weight: 600;
+}
+
+.center {
+    text-align: center;
+}
+
+.gradient {
+    position: absolute;
+    width: 40%;
+    height: 100px;
+    top: -90%;
+    filter: blur(20px);
+    border-radius: 50%;
+    animation: blueAnimation 0.7s ease-out;
+}
+
+.non-scroll {
+    -ms-overflow-style: none;
+}
+
+.non-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.currentPosition_outer {
+    width: 15px;
+    height: 15px;
+    border: 1px solid #f06292;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.currentPosition_inner {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #f06292;
+    animation: currentPositionAnimation 1s linear infinite;
+}
+
+@keyframes currentPositionAnimation {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes blueAnimation {
+    0% {
+        top: -200%;
+    }
+    100% {
+        top: -90%;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 100%, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translateZ(0);
+    }
+}
