@@ -10,12 +10,16 @@ export default function Component({ data }: { data: Category }) {
   const activeCategory = searchParams.get('category');
 
   const categoryRouter = (category: string) => {
-    router.replace(`${pathname}${createQueryString({ category: category })}`);
+      if (searchParams.get('category') == category) return;
+
+      router.replace(`${pathname}${createQueryString(searchParams, { category: category })}`, { scroll: true});
   };
 
   return (
     <div
-      className={`border cursor-pointer px-4 rounded-xl ${activeCategory == data.value ? 'border-amber-200 bg-amber-100' : 'border-gray-200'}`}
+      className={
+        `border cursor-pointer px-4 rounded-xl ${activeCategory == data.value ? 'border-amber-200 bg-amber-100' : 'border-gray-200'}`
+      }
       style={{ flex: '0 0 auto' }}
       onClick={() => {
         categoryRouter(data.value);

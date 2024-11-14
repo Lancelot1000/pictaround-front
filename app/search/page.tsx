@@ -10,7 +10,6 @@ import Photos from './_components/Photos';
 
 export default function Page() {
 
-
   const [coordinates, setCoordinates] = useState<Coordinates>([126.976882, 37.574187]);
 
   useEffect(() => {
@@ -22,7 +21,7 @@ export default function Page() {
 
   return (
     <div>
-        <Categories />
+      <Categories />
       <Map loc={coordinates} />
       <Suspense fallback={<div>LOADING___!!!</div>}>
         <Photos />

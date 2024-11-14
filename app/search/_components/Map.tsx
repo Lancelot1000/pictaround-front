@@ -1,16 +1,22 @@
 'use client';
 
+
 import { useAtomValue } from 'jotai';
 import { useSetAtom } from 'jotai/index';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Script from 'next/script';
 import { useEffect, useRef, useState } from 'react';
 
 import { isSideBarOpenAtom } from '@/atom/common';
-import { findLocationsAtom } from '@/atom/search';
+import {
+  boundsAtom,
+  findLocationsAtom,
+} from '@/atom/search';
+import { createQueryString } from '@/utils/common';
 
 import {
-  createMyPosition,
   createMarkers,
+  createMyPosition,
 } from '../_utils';
 
 const MAP_ID = 'naver-map';
@@ -18,11 +24,32 @@ const MAP_ID = 'naver-map';
 export default function Map({ loc }: { loc: Coordinates }) {
   const mapRef = useRef<NaverMap | null>();
 
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const [initLoading, setInitLoading] = useState(true);
   const [showInitButton, setShowInitButton] = useState(false);
 
   const findLocations = useSetAtom(findLocationsAtom);
+  const setBounds = useSetAtom(boundsAtom);
 
   const isSideBarOpen = useAtomValue(isSideBarOpenAtom);
+
+  useEffect(() => {
+    if (initLoading) return;
+
+    const callApi = async () => {
+      const offset = searchParams.get('offset') || 0;
+      const limit = searchParams.get('limit') || 20;
+      const category = searchParams.get('category') || '';
+      const { _min, _max } = mapRef.current.getBounds();
+
+      await findMarkers(_min, _max, Number(offset), Number(limit), category);
+    };
+
+    callApi();
+  }, [searchParams.toString()]);
 
   const initializeMap = () => {
     const mapOptions = {
@@ -50,7 +77,11 @@ export default function Map({ loc }: { loc: Coordinates }) {
 
     // 마커 위치 불러오기
     const { _min, _max } = mapRef.current.getBounds();
-    findMakers(_min, _max, 0, 20);
+    setBounds({ _min, _max });
+    const category = searchParams.get('category') || '';
+    findMarkers(_min, _max, 0, 20, category);
+
+    setInitLoading(false);
   };
 
   useEffect(() => {
@@ -72,13 +103,15 @@ export default function Map({ loc }: { loc: Coordinates }) {
 
   const researchLocation = () => {
     const { _min, _max } = mapRef.current.getBounds();
-    findMakers(_min, _max, 0, 20);
+    setBounds({ _min, _max });
+    const category = searchParams.get('category') || '';
+    findMarkers(_min, _max, 0, 20, category);
   };
 
   // maker 찍기
-  const findMakers = async (_min: Bound, _max: Bound, offset: number, limit: number) => {
+  const findMarkers = async (_min: Bound, _max: Bound, offset: number, limit: number, category: string) => {
     try {
-      const res: LocationList = await findLocations({ _min, _max, offset, limit });
+      const res: LocationList = await findLocations({ _min, _max, offset, limit, category });
 
       createMarkers(res.items, mapRef.current);
     } catch (err) {

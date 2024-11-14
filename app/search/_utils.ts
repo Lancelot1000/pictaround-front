@@ -28,7 +28,7 @@ export const createMarkers = (items: LocationInfo[], ref: NaverMap) => {
 
     // TODO: APPLY PHOTO POPUP
     window.naver.maps.Event.addListener(ref.marker, 'click', () => {
-      console.log(item);
+      // console.log(item);
     });
   });
 
@@ -52,3 +52,4 @@ const cleanupMarkers = (items: LocationInfo[], ref: NaverMap) => {
     }
   }
 }
+

@@ -3,7 +3,7 @@ export async function GET(request: Request) {
     {
       id: Math.random().toString(),
       label: '전체',
-      value: 'all',
+      value: '',
     },
     {
       id: Math.random().toString(),
