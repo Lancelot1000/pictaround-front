@@ -1,19 +1,15 @@
 'use client';
 
 
-import { useHydrateAtoms } from 'jotai/utils';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
-import Chips from '@/app/_components/Categories';
+import Categories from '@/app/_components/Categories';
 import Map from '@/app/_components/Map';
-import { categoriesAtom } from '@/atom/common';
-import { findCategories } from '@/atom/fetch';
 
 import Photos from './_components/Photos';
 
-export default function Page({ categories }: { categories: Categories }) {
+export default function Page() {
 
-  useHydrateAtoms([[categoriesAtom, categories] as const]);
 
   const [coordinates, setCoordinates] = useState<Coordinates>([126.976882, 37.574187]);
 
@@ -22,25 +18,15 @@ export default function Page({ categories }: { categories: Categories }) {
       // console.log(position);
       setCoordinates([position.coords.longitude, position.coords.latitude]);
     });
-
-    const categoriesCalling = async () => {
-      try {
-        if (categories.length == 0) {
-          await findCategories();
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    categoriesCalling();
   }, []);
 
   return (
     <div>
-      <Chips categories={categories} />
+        <Categories />
       <Map loc={coordinates} />
-      <Photos />
+      <Suspense fallback={<div>LOADING___!!!</div>}>
+        <Photos />
+      </Suspense>
     </div>
   );
 }
