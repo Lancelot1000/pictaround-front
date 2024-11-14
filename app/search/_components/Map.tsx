@@ -3,7 +3,7 @@
 
 import { useAtomValue } from 'jotai';
 import { useSetAtom } from 'jotai/index';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Script from 'next/script';
 import { useEffect, useRef, useState } from 'react';
 
@@ -12,7 +12,6 @@ import {
   boundsAtom,
   findLocationsAtom,
 } from '@/atom/search';
-import { createQueryString } from '@/utils/common';
 
 import {
   createMarkers,
@@ -24,8 +23,6 @@ const MAP_ID = 'naver-map';
 export default function Map({ loc }: { loc: Coordinates }) {
   const mapRef = useRef<NaverMap | null>();
 
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const [initLoading, setInitLoading] = useState(true);
