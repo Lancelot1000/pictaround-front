@@ -4,7 +4,7 @@
 import { Suspense, useEffect, useState } from 'react';
 
 import Categories from '@/app/_components/Categories';
-import Map from '@/app/_components/Map';
+import Map from '@/app/search/_components/Map';
 
 import Photos from './_components/Photos';
 

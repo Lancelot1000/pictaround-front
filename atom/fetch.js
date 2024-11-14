@@ -24,3 +24,10 @@ export async function findCategories() {
 
   return res;
 }
+
+export async function findLocations({ query }) {
+  const res = await fetcher('/search', 'GET', { query });
+
+  return res;
+
+}

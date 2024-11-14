@@ -6,3 +6,22 @@ type MarkIcon = {
   content?: string;
   anchor?: naver.maps.Point;
 }
+
+type Bound = {
+  x: number;
+  y: number;
+  _lat: number;
+  _lng: number;
+}
+
+interface LocationInfo {
+  id: string;
+  name: string;
+  location: string;
+  lat: Lat;
+  lng: Lng;
+}
+
+interface LocationList extends List {
+  items: LocationInfo[];
+}
