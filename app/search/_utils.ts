@@ -11,7 +11,7 @@ export const createMyPosition = (marker: Coordinates, ref: NaverMap) => {
 };
 
 
-export const createMarkers = (items: LocationInfo[], ref: NaverMap) => {
+export const createMarkers = (items: LocationInfo[], ref: NaverMap, markerClickHandler:(id: string) => void) => {
   if (items.length === 0) return;
 
   const markerIdList: string[] = ref.markerList.map((item: any) => item.id);
@@ -29,6 +29,7 @@ export const createMarkers = (items: LocationInfo[], ref: NaverMap) => {
     // TODO: APPLY PHOTO POPUP
     window.naver.maps.Event.addListener(ref.marker, 'click', () => {
       // console.log(item);
+      markerClickHandler(item.id);
     });
   });
 

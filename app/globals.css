@@ -29,6 +29,16 @@ body {
     text-align: center;
 }
 
+.horizon_center {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.vertical_center {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .gradient {
     position: absolute;
     width: 40%;
@@ -41,6 +51,18 @@ body {
 
 .non-scroll {
     -ms-overflow-style: none;
+}
+
+.non-block {
+    user-select: none;
+    -webkit-user-select: none;
+    /* (safari, chrome) browsers */
+    -moz-user-select: none;
+    /* mozilla browsers */
+    -khtml-user-select: none;
+    /* konqueror browsers */
+
+    -ms-user-select: none; /* IE10+ */
 }
 
 .non-scroll::-webkit-scrollbar {

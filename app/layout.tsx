@@ -38,7 +38,7 @@ export default function RootLayout({ children }: Readonly<{
       className={`${font.className} antialiased`}
     >
     <Provider>
-      <div id="side-bar"></div>
+      <div id="portal" className={'non-block'}></div>
       <div className="flex flex-col items-center justify-items-center">
         <div className="flex-col items-center border w-[600px] max-w-[100%] justify-center">
           <HeaderComponent />

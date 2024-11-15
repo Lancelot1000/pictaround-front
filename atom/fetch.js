@@ -31,3 +31,11 @@ export async function findLocations({ query }) {
   return res;
 
 }
+
+
+export async function findReviews({ params }) {
+  const res = await fetcher(`/search/${params.id}`, 'GET', {});
+
+  return res;
+
+}

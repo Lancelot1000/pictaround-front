@@ -1,9 +1,13 @@
 import { atom } from 'jotai';
 
-import { findLocations } from './fetch';
+import { isPopupOpenAtom } from '@/atom/common';
 
-export const boundsAtom = atom({_min: {}, _max: {}});
+import { findLocations, findReviews } from './fetch';
+
+export const boundsAtom = atom({ _min: {}, _max: {} });
 export const locationsAtom = atom({ offset: 0, limit: 0, total: 0, items: [] });
+export const reviewsAtom = atom([]);
+export const activeReviewAtom = atom({ item: { }, index: 0 });
 
 export const isLoadingAtom = atom(false);
 
@@ -23,8 +27,19 @@ export const findLocationsAtom = atom(null, async (get, set, data) => {
 
   set(locationsAtom, res);
   set(isLoadingAtom, false);
+  set(isPopupOpenAtom, false);
 
   return res;
 });
 
+export const findReviewsAtom = atom(null, async (get, set, data) => {
+  const res = await findReviews({ params: { id: data.id } });
+
+  set(reviewsAtom, res.items);
+  set(activeReviewAtom, { item: res.items[0], index: 0 });
+
+  return true;
+
+
+});
 

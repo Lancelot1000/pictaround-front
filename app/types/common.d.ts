@@ -3,7 +3,7 @@ type Categories = Category[];
 
 
 interface List {
-  limit: number;
-  offset: number;
-  total: number;
+  limit: number | null;
+  offset: number | null;
+  total: number | null;
 }

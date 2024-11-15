@@ -25,3 +25,14 @@ interface LocationInfo {
 interface LocationList extends List {
   items: LocationInfo[];
 }
+
+interface Review {
+  id?: string;
+  name?: string;
+  comment?: string;
+  location?: string;
+}
+
+interface ReviewList extends List {
+  items: Review[];
+}

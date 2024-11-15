@@ -1,16 +1,19 @@
 'use client';
 
 
+
 import { useAtomValue } from 'jotai';
 import { useSetAtom } from 'jotai/index';
 import { useSearchParams } from 'next/navigation';
 import Script from 'next/script';
 import { useEffect, useRef, useState } from 'react';
 
-import { isSideBarOpenAtom } from '@/atom/common';
+import useLoading from '@/app/hooks/useLoading';
+import usePhotoPopup from '@/app/hooks/usePhotoPopup';
+import { isPopupOpenAtom } from '@/atom/common';
 import {
   boundsAtom,
-  findLocationsAtom,
+  findLocationsAtom, findReviewsAtom,
 } from '@/atom/search';
 
 import {
@@ -23,15 +26,18 @@ const MAP_ID = 'naver-map';
 export default function Map({ loc }: { loc: Coordinates }) {
   const mapRef = useRef<NaverMap | null>();
 
+  const { open: loadingOpen, close: loadingClose, LoadingComponent } = useLoading();
+  const { open, LocationInfoComponent } = usePhotoPopup();
   const searchParams = useSearchParams();
 
   const [initLoading, setInitLoading] = useState(true);
   const [showInitButton, setShowInitButton] = useState(false);
 
   const findLocations = useSetAtom(findLocationsAtom);
+  const findReviews = useSetAtom(findReviewsAtom);
   const setBounds = useSetAtom(boundsAtom);
 
-  const isSideBarOpen = useAtomValue(isSideBarOpenAtom);
+  const isSideBarOpen = useAtomValue(isPopupOpenAtom);
 
   useEffect(() => {
     if (initLoading) return;
@@ -105,12 +111,25 @@ export default function Map({ loc }: { loc: Coordinates }) {
     findMarkers(_min, _max, 0, 20, category);
   };
 
+  const markerClickHandler = async (id: string) => {
+    try {
+      loadingOpen();
+      const res = await findReviews({ id });
+
+      if (res) open();
+    } catch (err) {
+      console.log(err);
+    }finally {
+      loadingClose();
+    }
+  };
+
   // maker 찍기
   const findMarkers = async (_min: Bound, _max: Bound, offset: number, limit: number, category: string) => {
     try {
       const res: LocationList = await findLocations({ _min, _max, offset, limit, category });
 
-      createMarkers(res.items, mapRef.current);
+      createMarkers(res.items, mapRef.current, markerClickHandler);
     } catch (err) {
       console.log(err);
     } finally {
@@ -126,7 +145,7 @@ export default function Map({ loc }: { loc: Coordinates }) {
         strategy="beforeInteractive"
         src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}`}
       />
-      <div className={'relative'}>
+      <div className={'relative non-block'}>
         <div id={MAP_ID} ref={mapRef} style={{ width: '100%', height: '350px', zIndex: isSideBarOpen ? -1 : 1 }} />
         {showInitButton && (
           <div
@@ -138,6 +157,8 @@ export default function Map({ loc }: { loc: Coordinates }) {
           </div>
         )}
       </div>
+      <LocationInfoComponent />
+      <LoadingComponent />
     </>
   );
 };

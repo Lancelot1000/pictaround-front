@@ -2,7 +2,7 @@ import { atom } from 'jotai';
 
 import { findCategories } from '@/atom/fetch';
 
-export const isSideBarOpenAtom = atom(false);
+export const isPopupOpenAtom = atom(false);
 
 export const categoriesAtom = atom(
   [

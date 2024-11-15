@@ -4,12 +4,13 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { isSideBarOpenAtom } from '../../atom/common';
+import { isPopupOpenAtom } from '@/atom/common';
+
 import Avatar from '../_components/Avatar';
 
 export default function useSideBar() {
   const [isOpen, setOpen] = useState(false);
-  const setIsSideBarOpen = useSetAtom(isSideBarOpenAtom);
+  const setIsPopupOpen = useSetAtom(isPopupOpenAtom);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -24,12 +25,12 @@ export default function useSideBar() {
 
   const open = () => {
     setOpen(true);
-    setIsSideBarOpen(true);
+    setIsPopupOpen(true);
   };
 
   const close = () => {
     setOpen(false);
-    setIsSideBarOpen(false);
+    setIsPopupOpen(false);
   };
 
 
@@ -86,7 +87,7 @@ export default function useSideBar() {
             </nav>
           </div>
         </div>,
-        document.getElementById('side-bar') as HTMLElement,
+        document.getElementById('portal') as HTMLElement,
       )
     );
   };

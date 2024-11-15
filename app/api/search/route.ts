@@ -39,7 +39,5 @@ export async function GET(request: Request) {
         ...getData(6),
       ],
     },
-  ), {
-    status: 200,
-  });
+  ), { status: 200 });
 }
