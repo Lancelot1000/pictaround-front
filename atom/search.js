@@ -8,6 +8,7 @@ export const boundsAtom = atom({ _min: {}, _max: {} });
 export const locationsAtom = atom({ offset: 0, limit: 0, total: 0, items: [] });
 export const reviewsAtom = atom([]);
 export const activeReviewAtom = atom({ item: { }, index: 0 });
+export const activeCategoryAtom = atom('');
 
 export const isLoadingAtom = atom(false);
 

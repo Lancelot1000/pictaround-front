@@ -10,9 +10,9 @@ export default function Component({ data }: { data: Category }) {
   const activeCategory = searchParams.get('category');
 
   const categoryRouter = (category: string) => {
-      if (searchParams.get('category') == category) return;
+    if (searchParams.get('category') == category) return;
 
-      router.replace(`${pathname}${createQueryString(searchParams, { category: category })}`, { scroll: true});
+    router.replace(`${pathname}${createQueryString(searchParams, { category: category })}`, { scroll: false });
   };
 
   return (

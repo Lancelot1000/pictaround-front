@@ -39,8 +39,9 @@ export default function Component({ data }: { data: LocationInfo }) {
         onClick={onPhotoClick}
         className={'relative w-full h-full cursor-pointer'}
       >
-        {isLoading ? (
-          <div className={'flex items-center justify-center h-full'}>
+        <Image src={data.location} alt={data.name} fill objectFit="cover" />
+        {isLoading && (
+          <div className={'flex items-center justify-center h-full bg-[#00000070]'}>
             <svg aria-hidden="true" role="status"
                  className="inline w-4 h-4 me-3 text-gray-200 animate-spin dark:text-gray-600"
                  viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,8 +53,6 @@ export default function Component({ data }: { data: LocationInfo }) {
                 fill="#1C64F2" />
             </svg>
           </div>
-        ) : (
-          <Image src={data.location} alt={data.name} fill objectFit="cover" />
         )}
       </div>
       <LocationInfoComponent />

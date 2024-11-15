@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Noto_Sans, Protest_Riot } from 'next/font/google';
 
-import HeaderComponent from '@/app/_components/Header';
+import HeaderComponent from '@/components/Header';
 import Provider from '@/provider/Provider';
 
 const font = Noto_Sans({

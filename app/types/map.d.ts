@@ -20,6 +20,7 @@ interface LocationInfo {
   location: string;
   lat: Lat;
   lng: Lng;
+  categoryId: string;
 }
 
 interface LocationList extends List {

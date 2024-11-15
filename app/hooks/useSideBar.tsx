@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom';
 
 import { isPopupOpenAtom } from '@/atom/common';
 
-import Avatar from '../_components/Avatar';
+import Avatar from '@/components/Avatar';
 
 export default function useSideBar() {
   const [isOpen, setOpen] = useState(false);

@@ -1,7 +1,5 @@
 'use client';
 
-
-
 import { useAtomValue } from 'jotai';
 import { useSetAtom } from 'jotai/index';
 import { useSearchParams } from 'next/navigation';
@@ -12,6 +10,7 @@ import useLoading from '@/app/hooks/useLoading';
 import usePhotoPopup from '@/app/hooks/usePhotoPopup';
 import { isPopupOpenAtom } from '@/atom/common';
 import {
+  activeCategoryAtom,
   boundsAtom,
   findLocationsAtom, findReviewsAtom,
 } from '@/atom/search';
@@ -36,8 +35,10 @@ export default function Map({ loc }: { loc: Coordinates }) {
   const findLocations = useSetAtom(findLocationsAtom);
   const findReviews = useSetAtom(findReviewsAtom);
   const setBounds = useSetAtom(boundsAtom);
+  const setActiveCategory = useSetAtom(activeCategoryAtom);
 
   const isSideBarOpen = useAtomValue(isPopupOpenAtom);
+  const activeCategory = useAtomValue(activeCategoryAtom);
 
   useEffect(() => {
     if (initLoading) return;
@@ -48,15 +49,20 @@ export default function Map({ loc }: { loc: Coordinates }) {
       const category = searchParams.get('category') || '';
       const { _min, _max } = mapRef.current.getBounds();
 
-      await findMarkers(_min, _max, Number(offset), Number(limit), category);
+      if (activeCategory === category) {
+        await findMarkers(_min, _max, Number(offset), Number(limit), category);
+      } else {
+        setActiveCategory(category);
+        initializeMap([mapRef.current.center.x, mapRef.current.center.y]);
+      }
     };
 
     callApi();
   }, [searchParams.toString()]);
 
-  const initializeMap = () => {
+  const initializeMap = (pos: Coordinates | null) => {
     const mapOptions = {
-      center: new window.naver.maps.LatLng(loc),
+      center: new window.naver.maps.LatLng(pos || loc),
       zoom: 16,
       logoControlOptions: {
         position: window.naver.maps.Position.BOTTOM_RIGHT,
@@ -75,8 +81,10 @@ export default function Map({ loc }: { loc: Coordinates }) {
       setShowInitButton(true);
     });
 
-    // 현재 위치 마커로 표시
-    createMyPosition(loc, mapRef.current);
+    // 현위치 마커로 표시
+    if (!pos) {
+      createMyPosition(loc, mapRef.current);
+    }
 
     // 마커 위치 불러오기
     const { _min, _max } = mapRef.current.getBounds();
@@ -90,7 +98,7 @@ export default function Map({ loc }: { loc: Coordinates }) {
   useEffect(() => {
     if (!window.naver || !mapRef?.current) return;
 
-    initializeMap();
+    initializeMap(null);
 
   }, [loc]);
 
@@ -119,7 +127,7 @@ export default function Map({ loc }: { loc: Coordinates }) {
       if (res) open();
     } catch (err) {
       console.log(err);
-    }finally {
+    } finally {
       loadingClose();
     }
   };
@@ -141,7 +149,7 @@ export default function Map({ loc }: { loc: Coordinates }) {
     <>
       <Script
         type="text/javascript"
-        onReady={initializeMap}
+        onReady={() => initializeMap(null)}
         strategy="beforeInteractive"
         src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}`}
       />

@@ -10,7 +10,7 @@ import {
 
 import Photo from './Photo';
 import SkeletonPhoto from './SkeletonPhoto';
-import Pagination from '../../_components/Pagination';
+import Pagination from '@/components/Pagination';
 
 export default function Component() {
   const isLoading = useAtomValue(isLoadingAtom);
