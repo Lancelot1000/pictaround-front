@@ -150,7 +150,7 @@ export default function Map({ loc }: { loc: Coordinates }) {
       <Script
         type="text/javascript"
         onReady={() => initializeMap(null)}
-        strategy="beforeInteractive"
+        strategy="afterInteractive"
         src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}`}
       />
       <div className={'relative non-block'}>

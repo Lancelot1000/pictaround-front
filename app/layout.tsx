@@ -39,10 +39,12 @@ export default function RootLayout({ children }: Readonly<{
     >
     <Provider>
       <div id="portal" className={'non-block'}></div>
-      <div className="flex flex-col items-center justify-items-center">
-        <div className="flex-col items-center border w-[600px] max-w-[100%] justify-center">
+      <div className="flex flex-col items-center justify-items-center h-[100vh]">
+        <div className="flex flex-col items-center w-[600px] max-w-[100%] h-[100vh]">
           <HeaderComponent />
+          <div className={'w-full flex flex-col flex-1'}>
           {children}
+          </div>
         </div>
       </div>
     </Provider>

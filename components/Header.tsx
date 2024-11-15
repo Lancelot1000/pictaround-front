@@ -20,7 +20,7 @@ export default function Component() {
   };
 
   return (
-    <div>
+    <div className={'w-full'}>
       <header className="flex justify-between h-[40px] items-center px-3">
         <h1 className={'logo text-xl'}>PictARound</h1>
         <MenuIcon />

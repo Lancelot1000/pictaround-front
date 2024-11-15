@@ -19,20 +19,13 @@ export default function Page() {
         <h2 className={'text-2xl font-medium text-center'}>회원가입</h2>
         <Input id={'id'} label={'아이디'} />
         <Input id={'password'} label={'비밀번호'} />
+        <Input id={'password'} label={'비밀번호 재확인'} />
         <div className={'flex flex-col gap-4 my-4'}>
           <Button
-            label={'로그인'}
+            label={'회원가입'}
             type={'submit'}
             size={'m-soft-round'}
             style={{ backgroundColor: 'royalblue' }}
-          />
-          <Button
-            label={''}
-            size={'m-soft-round'}
-            style={{ backgroundColor: 'dimgray' }}
-            onClick={() => {
-              router.push('/join');
-            }}
           />
         </div>
       </div>

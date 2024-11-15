@@ -53,15 +53,15 @@ export default function useSideBar() {
     return (
       createPortal(
         <div>
-          <div className={'absolute w-full h-full bg-[#00000070] animate-fadeIn overflow-hidden'} onClick={close}>
-            <nav className={'absolute top-0 right-0 w-[200px] h-full bg-white animate-slideIn p-2 overflow-y-auto'}>
+          <div className={'absolute w-full h-full bg-[#00000070] animate-fadeIn overflow-hidden'} style={{zIndex: 9999}} onClick={close}>
+            <nav className={'absolute top-0 right-0 w-[200px] h-full bg-white animate-slideIn p-2 overflow-y-auto border-l'}>
               <div onClick={close} className="flex justify-end">
                 <FiX size={24} onClick={close} color={'#000'} className="cursor-pointer" />
               </div>
               <div className="py-4 my-4 flex justify-between items-center">
                 <Avatar location={''} />
                 {/*TODO: 로그인 구현*/}
-                <Link href={'/public'}>
+                <Link href={'/login'}>
                   <span className="text-xl font-mediums">
                     로그인
                   </span>
