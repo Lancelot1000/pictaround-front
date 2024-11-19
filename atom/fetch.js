@@ -37,5 +37,16 @@ export async function findReviews({ params }) {
   const res = await fetcher(`/search/${params.id}`, 'GET', {});
 
   return res;
+}
 
+export async function login({ body }) {
+  const res = await fetcher(`/auth/login`, 'POST', { body });
+
+  return res;
+}
+
+export async function findMe() {
+  const res = await fetcher(`/user/me`, 'GET');
+
+  return res;
 }

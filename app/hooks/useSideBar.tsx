@@ -1,16 +1,18 @@
 import { FiX } from '@react-icons/all-files/fi/FiX';
-import { useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { myInformationAtom } from '@/atom/auth';
 import { isPopupOpenAtom } from '@/atom/common';
-
 import Avatar from '@/components/Avatar';
 
 export default function useSideBar() {
   const [isOpen, setOpen] = useState(false);
+
   const setIsPopupOpen = useSetAtom(isPopupOpenAtom);
+  const myInformation = useAtomValue<User>(myInformationAtom);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -53,19 +55,29 @@ export default function useSideBar() {
     return (
       createPortal(
         <div>
-          <div className={'absolute w-full h-full bg-[#00000070] animate-fadeIn overflow-hidden'} style={{zIndex: 9999}} onClick={close}>
-            <nav className={'absolute top-0 right-0 w-[200px] h-full bg-white animate-slideIn p-2 overflow-y-auto border-l'}>
+          <div className={'absolute w-full h-full bg-[#00000070] animate-fadeIn overflow-hidden'}
+               style={{ zIndex: 9999 }} onClick={close}>
+            <nav
+              className={'absolute top-0 right-0 w-[200px] h-full bg-white animate-slideIn p-2 overflow-y-auto border-l'}>
               <div onClick={close} className="flex justify-end">
                 <FiX size={24} onClick={close} color={'#000'} className="cursor-pointer" />
               </div>
               <div className="py-4 my-4 flex justify-between items-center">
                 <Avatar location={''} />
-                {/*TODO: 로그인 구현*/}
-                <Link href={'/login'}>
+                {
+                  !!myInformation?.nickname ? (
+                    <span className="text-xl font-mediums">
+                    {myInformation.nickname}
+                  </span>
+                  ) : (
+                    <Link href={'/login'}>
                   <span className="text-xl font-mediums">
                     로그인
                   </span>
-                </Link>
+                    </Link>
+
+                  )
+                }
               </div>
               {menus.map(menu => {
                 if (menu.type == 'divider') {

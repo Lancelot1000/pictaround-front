@@ -12,6 +12,7 @@ const fetcher = async (urlPath, method, options = {}) => {
     log(`(${method}) url: ${URL}`);
     const obj = {
       cache: 'no-cache',
+      credentials: 'include',
       headers: {
         // 'X-Auth-Token': TOKEN,
         'Content-Type': 'application/json',
@@ -49,11 +50,18 @@ const fetcher = async (urlPath, method, options = {}) => {
 
     const res = await response.json();
 
+    if (response.ok === false) {
+      if (!!res?.message) {
+        throw new Error(res.message);
+      }
+
+      throw Error(res);
+    }
+
     log('res: ', res);
     log(`===============================`);
     return res;
   } catch (err) {
-    log(err);
     throw err;
   }
 };

@@ -65,6 +65,17 @@ body {
     -ms-user-select: none; /* IE10+ */
 }
 
+.error-box {
+    border-radius: 4px;
+    background-color: #f1dede;
+    border: 1px dashed #e4d0d3;
+}
+
+.error-text {
+    font-size: 16px;
+    color: #89606c;
+}
+
 .non-scroll::-webkit-scrollbar {
     display: none;
 }
