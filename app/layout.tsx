@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Noto_Sans, Protest_Riot } from 'next/font/google';
 
-import HydrateProvider from '@/provider/HydrateProvider';
 import Provider from '@/provider/Provider';
+import HeaderComponent from '@/components/Header';
 
 const font = Noto_Sans({
   subsets: ['latin'],
@@ -41,11 +41,10 @@ export default function RootLayout({ children }: Readonly<{
       <div id="portal" className={'non-block'}></div>
       <div className="flex flex-col items-center justify-items-center h-[100vh]">
         <div className="flex flex-col items-center w-[600px] max-w-[100%] h-[100vh]">
-          <HydrateProvider>
-            <div className={'w-full flex flex-col flex-1'}>
-              {children}
-            </div>
-          </HydrateProvider>
+          <HeaderComponent />
+          <div className={'w-full flex flex-col flex-1'}>
+            {children}
+          </div>
         </div>
       </div>
     </Provider>

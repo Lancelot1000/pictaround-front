@@ -23,7 +23,6 @@ export default function Page() {
   const router = useRouter();
   const form = useForm();
 
-
   const login = useSetAtom(loginAtom);
 
   const [errorType, setErrorType] = useState<Error>('none');
@@ -43,7 +42,6 @@ export default function Page() {
       }
       throw err;
     }
-
   };
 
   const { isLoading, invokeFetch } = useFetcher<Login>({ apiCall: loginHandler, unlockLoading: true });

@@ -45,8 +45,8 @@ export async function login({ body }) {
   return res;
 }
 
-export async function findMe({ options }) {
-  const res = await fetcher(`/user/me`, 'GET', options);
+export async function findMe() {
+  const res = await fetcher(`/user/me`, 'GET');
 
   return res;
 }

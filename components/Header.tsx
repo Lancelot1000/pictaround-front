@@ -1,15 +1,38 @@
 'use client';
 
-import { useHydrateAtoms } from 'jotai/utils';
-import React from 'react';
+import { useSetAtom } from 'jotai/index';
+import React, { useEffect } from 'react';
 
 import useSideBar from '@/app/hooks/useSideBar';
-import { myInformationAtom } from '@/atom/auth';
+import { findMeAtom } from '@/atom/auth';
 
-export default function Component({ myInformation }: { myInformation: User }) {
+export default function Component() {
 
   const { open, SideBarComponent } = useSideBar();
-  useHydrateAtoms([[myInformationAtom, myInformation]], { dangerouslyForceHydrate: true });
+
+  const findMe = useSetAtom(findMeAtom);
+
+  useEffect(() => {
+    console.log('here');
+    const init = async () => {
+      try {
+        const cookieStore = document.cookie.split(";");
+        console.log('cookieStore',cookieStore);
+        const userSession = cookieStore.find(cookie => cookie.split("=")[0].trim() === "USER_SESSION");
+        console.log('userSession',userSession);
+
+        if (!userSession) return;
+
+        await findMe();
+
+      } catch(err) {
+        document.cookie = "USER_SESSION=; path=/; max-age=-1";
+      }
+    }
+
+    init();
+  }, []);
+
 
   const MenuIcon: React.FC = () => {
     return (
