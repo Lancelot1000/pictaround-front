@@ -1,7 +1,7 @@
 'use client';
 
 import { useSetAtom } from 'jotai/index';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -22,6 +22,8 @@ type Error = 'invalid' | 'unexpected' | 'none';
 export default function Page() {
   const router = useRouter();
   const form = useForm();
+  const searchParams = useSearchParams();
+
 
   const login = useSetAtom(loginAtom);
 
@@ -44,14 +46,23 @@ export default function Page() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
   const { isLoading, invokeFetch } = useFetcher<Login>({ apiCall: loginHandler, unlockLoading: true });
 
   const isLoginButtonActive = !!form.watch('id') && !!form.watch('password');
+
+  const fromJoin = searchParams.get('redirect_uri') === '/join';
 
   return (
     <Form form={form} onSubmit={invokeFetch}>
       <div className={'py-10 px-4 flex flex-col gap-4 border mt-[100px]'}>
         <h2 className={'text-2xl font-medium text-center'}>로그인</h2>
+        {errorType === 'none' && fromJoin && (
+          <div className={'h-[80px] flex flex-col items-center justify-center info-box'}>
+            <p className={'info-text'}>회원가입을 축하합니다. 로그인을 진행해주세요.</p>
+          </div>
+        )}
         <Input id={'id'} label={'아이디'} />
         <Input id={'password'} label={'비밀번호'} type={'password'} />
         {errorType !== 'none' && (

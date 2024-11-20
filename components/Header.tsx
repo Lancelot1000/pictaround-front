@@ -13,14 +13,10 @@ export default function Component() {
   const findMe = useSetAtom(findMeAtom);
 
   useEffect(() => {
-    console.log('here');
     const init = async () => {
       try {
         const cookieStore = document.cookie.split(";");
-        console.log('cookieStore',cookieStore);
         const userSession = cookieStore.find(cookie => cookie.split("=")[0].trim() === "USER_SESSION");
-        console.log('userSession',userSession);
-
         if (!userSession) return;
 
         await findMe();

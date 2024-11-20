@@ -1,16 +1,6 @@
 import Link from 'next/link';
-import { CSSProperties } from 'react';
 
-type Props = {
-  size: 'sm' | 'm' | 'm-soft-round' | 'md' | 'md-soft-round';
-  label: string;
-  route?: string;
-  onClick?: () => void;
-  style?: CSSProperties;
-  type?: 'submit' | 'button';
-  disabled?: boolean;
-  loading?: boolean;
-}
+import { ButtonProps } from '@/app/types/common';
 
 export default function Component(
   {
@@ -23,11 +13,16 @@ export default function Component(
     loading = false,
     type = 'button',
     disabled = false,
-  }: Props) {
+  }: ButtonProps) {
 
 
   const getSizeStyle = (size: string) => {
     switch (size) {
+      case 's':
+        return {
+          padding: '8px',
+          borderRadius: '8px',
+        };
       case 'sm':
         return {
           padding: '4px 8px',
@@ -54,7 +49,8 @@ export default function Component(
           borderRadius: '40px',
         };
       default:
-        return {};
+        return {
+        };
     }
   };
 

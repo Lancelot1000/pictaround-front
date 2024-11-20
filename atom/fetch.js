@@ -39,14 +39,46 @@ export async function findReviews({ params }) {
   return res;
 }
 
-export async function login({ body }) {
-  const res = await fetcher(`/auth/login`, 'POST', { body });
+export async function findMe() {
+  try {
+    const res = await fetcher(`/user/me`, 'GET');
 
-  return res;
+    return res;
+  } catch (err) {
+    throw err;
+  }
 }
 
-export async function findMe() {
-  const res = await fetcher(`/user/me`, 'GET');
+// AUTH
+export async function login({ body }) {
+  try {
+    const res = await fetcher(`/auth/login`, 'POST', { body });
 
-  return res;
+    return res;
+
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function join({ body }) {
+  try {
+    const res = await fetcher(`/auth/join`, 'POST', { body });
+
+    return res;
+
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function checkIdDuplicated({ params }) {
+  try {
+    const res = await fetcher(`/auth/check-id/${params.username}`, 'GET', {});
+
+    return res;
+
+  } catch (err) {
+    throw err;
+  }
 }

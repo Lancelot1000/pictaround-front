@@ -65,12 +65,22 @@ body {
     -ms-user-select: none; /* IE10+ */
 }
 
+.info-box {
+    border-radius: 4px;
+    background-color: #fde9d0;
+}
+
 .error-box {
     border-radius: 4px;
     background-color: #f1dede;
-    border: 1px dashed #e4d0d3;
+    border: 1px dashed #a1a0ee;
 }
 
+.info-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #867864;
+}
 .error-text {
     font-size: 16px;
     color: #89606c;

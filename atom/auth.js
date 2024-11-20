@@ -31,3 +31,23 @@ export const findMeAtom = atom(null, async (get, set) => {
   }
 
 });
+
+export const joinAtom = atom(null, async (get, set, data) => {
+  try {
+    const res = await Fetch.join({ body: data });
+    return res;
+
+  } catch (err) {
+    throw err;
+  }
+});
+
+export const checkIdDuplicatedAtom = atom(null, async (get, set, data) => {
+  try {
+    const res = await Fetch.checkIdDuplicated({ params: { username: data.id } });
+    return res;
+
+  } catch (err) {
+    throw err;
+  }
+});
