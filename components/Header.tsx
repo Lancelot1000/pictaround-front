@@ -1,12 +1,15 @@
 'use client';
 
+import { useHydrateAtoms } from 'jotai/utils';
 import React from 'react';
 
 import useSideBar from '@/app/hooks/useSideBar';
+import { myInformationAtom } from '@/atom/auth';
 
-export default function Component() {
+export default function Component({ myInformation }: { myInformation: User }) {
 
   const { open, SideBarComponent } = useSideBar();
+  useHydrateAtoms([[myInformationAtom, myInformation]], { dangerouslyForceHydrate: true });
 
   const MenuIcon: React.FC = () => {
     return (

@@ -24,6 +24,17 @@ const fetcher = async (urlPath, method, options = {}) => {
       obj.headers['Authorization'] = options.token;
     }
 
+    // cookie - for SSR
+    if (options.cookie) {
+      let _cookie = '';
+
+      for (let [key, value] of Object.entries(options.cookie)) {
+        _cookie += key + '=' + encodeURIComponent(value);
+      }
+
+      obj.headers['Cookie'] = _cookie;
+    }
+
     // query
     if (options.query) {
       log('query: ', options.query);
@@ -43,7 +54,7 @@ const fetcher = async (urlPath, method, options = {}) => {
       obj.body = JSON.stringify(options.body);
     }
 
-    const response = await fetch(BASE_URL + urlPath, {
+    const response = await fetch(URL, {
       method,
       ...obj,
     });
@@ -51,11 +62,11 @@ const fetcher = async (urlPath, method, options = {}) => {
     const res = await response.json();
 
     if (response.ok === false) {
-      if (!!res?.message) {
-        throw new Error(res.message);
-      }
+      log('res', res);
 
-      throw Error(res);
+      if (typeof document !== 'undefined') {
+        throw new Error(res?.message);
+      }
     }
 
     log('res: ', res);

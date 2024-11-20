@@ -11,8 +11,9 @@ import Avatar from '@/components/Avatar';
 export default function useSideBar() {
   const [isOpen, setOpen] = useState(false);
 
-  const setIsPopupOpen = useSetAtom(isPopupOpenAtom);
   const myInformation = useAtomValue<User>(myInformationAtom);
+
+  const setIsPopupOpen = useSetAtom(isPopupOpenAtom);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -42,7 +43,6 @@ export default function useSideBar() {
       return null;
     }
 
-    // TODO: route 수정
     const menus = [
       { type: 'menu', label: '지도 확인', route: '/search' },
       { type: 'divider', label: 'divider1', route: '/' },

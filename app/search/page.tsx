@@ -3,8 +3,8 @@
 
 import { Suspense, useEffect, useState } from 'react';
 
-import Categories from '@/components/Categories';
 import Map from '@/app/search/_components/Map';
+import Categories from '@/components/Categories';
 
 import Photos from './_components/Photos';
 

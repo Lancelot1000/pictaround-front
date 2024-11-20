@@ -9,7 +9,7 @@ export const loginAtom = atom(null, async (get, set, data) => {
     const res = await Fetch.login({ body: data });
 
     if (res.success) {
-      const userInfo = await Fetch.findMe();
+      const userInfo = await Fetch.findMe({});
 
       set(myInformationAtom, userInfo);
     }
@@ -22,7 +22,7 @@ export const loginAtom = atom(null, async (get, set, data) => {
 
 export const findMeAtom = atom(null, async (get, set) => {
   try {
-    const res = await Fetch.findMe();
+    const res = await Fetch.findMe({});
 
     set(myInformationAtom, res);
     return res;
