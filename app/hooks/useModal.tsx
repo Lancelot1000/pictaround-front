@@ -55,7 +55,7 @@ export default function useModal() {
             <div className={'py-4 mb-4'}>
               <p className={'text-lg font-medium whitespace-pre-wrap'}>{content}</p>
             </div>
-            <div className={'flex'}>
+            <div className={'flex gap-2'}>
               {buttons.map(button => {
                 return (
                   <Button

@@ -5,16 +5,22 @@ import React, { useEffect } from 'react';
 
 import useSideBar from '@/app/hooks/useSideBar';
 import { findMeAtom } from '@/atom/auth';
+import { findCategoriesAtom } from '@/atom/common';
 
 export default function Component() {
 
   const { open, SideBarComponent } = useSideBar();
 
   const findMe = useSetAtom(findMeAtom);
+  const findCategories = useSetAtom(findCategoriesAtom);
 
   useEffect(() => {
     const init = async () => {
       try {
+        // 카테고리
+        await findCategories();
+
+        // 유저 정보
         const cookieStore = document.cookie.split(";");
         const userSession = cookieStore.find(cookie => cookie.split("=")[0].trim() === "USER_SESSION");
         if (!userSession) return;

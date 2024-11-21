@@ -1,5 +1,8 @@
 import fetcher from '../utils/fetcher';
 
+/**
+ * COMMON
+ */
 export async function findCategories() {
   if (typeof window !== 'undefined') {
     const itemStr = localStorage.getItem('categories');
@@ -21,6 +24,15 @@ export async function findCategories() {
       expires: new Date().getTime() + 7 * 24 * 60 * 60 * 1000,
     }));
   }
+
+  return res;
+}
+
+/**
+ * location 생성
+ */
+export async function createReview({body}) {
+  const res = await fetcher('/review', 'POST', { body });
 
   return res;
 }
@@ -49,7 +61,16 @@ export async function findMe() {
   }
 }
 
-// AUTH
+// NAVER SEARCH
+export async function searchLocationInformation({ query }) {
+  const res = await fetcher('/keyword', 'GET', { query: { query } });
+
+  return res;
+}
+
+/**
+ * AUTH START
+ */
 export async function login({ body }) {
   try {
     const res = await fetcher(`/auth/login`, 'POST', { body });
@@ -82,3 +103,42 @@ export async function checkIdDuplicated({ params }) {
     throw err;
   }
 }
+
+/**
+ * AUTH END
+ */
+
+/**
+ * S3 UPLOADER START
+ */
+export async function getS3Url({ body }) {
+  try {
+    const res = await fetcher(`/get-presigned-url`, 'POST', { body });
+
+    return res;
+
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function sendFile({ url, file }) {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_AWS_HOST}${url}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': file.type },
+      body: file,
+    })
+    // const res = await fetcher(
+    //   `${process.env.NEXT_PUBLIC_AWS_HOST}${url}`,
+    //   'PUT',
+    //   { body, type });
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+}
+/**
+ * S3 UPLOADER END
+ */

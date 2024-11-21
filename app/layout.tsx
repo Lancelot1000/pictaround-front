@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Noto_Sans, Protest_Riot } from 'next/font/google';
 
-import Provider from '@/provider/Provider';
 import HeaderComponent from '@/components/Header';
+import Provider from '@/provider/Provider';
 
 const font = Noto_Sans({
   subsets: ['latin'],

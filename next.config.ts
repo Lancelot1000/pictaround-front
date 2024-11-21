@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   publicRuntimeConfig: {
     NAVER_CLIENT_ID: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID,
     API_HOST: process.env.NEXT_PUBLIC_API_HOST,
+    S3_HOST: process.env.NEXT_PUBLIC_AWS_HOST,
   },
 };
 

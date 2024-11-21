@@ -8,7 +8,7 @@ const fetcher = async (urlPath, method, options = {}) => {
   try {
     log(`===============================`);
     const BASE_URL = process.env.NEXT_PUBLIC_API_HOST;
-    let URL = BASE_URL + urlPath;
+    let URL = urlPath.startsWith('http') ? urlPath : BASE_URL + urlPath;
     log(`(${method}) url: ${URL}`);
     const obj = {
       cache: 'no-cache',
@@ -24,15 +24,10 @@ const fetcher = async (urlPath, method, options = {}) => {
       obj.headers['Authorization'] = options.token;
     }
 
-    // cookie - for SSR
-    if (options.cookie) {
-      let _cookie = '';
+    // contentType
+    if (options.type) {
+      obj.headers['Content-Type'] = options.type;
 
-      for (let [key, value] of Object.entries(options.cookie)) {
-        _cookie += key + '=' + encodeURIComponent(value);
-      }
-
-      obj.headers['Cookie'] = _cookie;
     }
 
     // query

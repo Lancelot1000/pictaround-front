@@ -1,6 +1,12 @@
 import { useFormContext } from 'react-hook-form';
 
-export default function Component({ label, id, handler }) {
+type Props = {
+  label: string;
+  id: string;
+  handler: (file: File) => void;
+}
+
+export default function Component({ label, id, handler } : Props) {
   const { register } = useFormContext();
 
 
@@ -19,6 +25,7 @@ export default function Component({ label, id, handler }) {
             handler(file);
           });
         }}
+        className={'file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-500'}
       />
     </div>
   );
