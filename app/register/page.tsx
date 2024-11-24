@@ -13,6 +13,7 @@ import { categoriesAtom } from '@/atom/common';
 import * as Fetch from '@/atom/fetch';
 import { createReviewAtom, uploadImageAtom } from '@/atom/search';
 import Button from '@/components/Button';
+import CommonImage from '@/components/CommonImage';
 import FileInput from '@/components/FileInput';
 import Form from '@/components/Form';
 import Input from '@/components/Input';
@@ -56,7 +57,7 @@ export default function Page() {
   const categoryOptions = categories.map(category => ({
     label: category.label,
     value: category.id,
-  }))
+  }));
 
   // 검색
   useEffect(() => {
@@ -143,7 +144,7 @@ export default function Page() {
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
-  const { isLoading, invokeFetch} = useFetcher<RegisterForm>({ apiCall: onSubmit, unlockLoading: !false });
+  const { isLoading, invokeFetch } = useFetcher<RegisterForm>({ apiCall: onSubmit, unlockLoading: !false });
 
   return (
     <div className={'p-4'}>
@@ -165,9 +166,15 @@ export default function Page() {
           <FileInput id={'file'} label={'이미지 업로더'} handler={onFileUploadHandler} />
         </div>
         {blobImage && (
-          <div className={'border mb-4 relative w-[300px] h-[300px]'}>
-            <Image src={blobImage} alt={'미리보기 이미지'} fill objectFit="contain" />
-          </div>
+          <CommonImage
+            width={'300px'}
+            height={'300px'}
+            alt={'미리보기 이미지'}
+            objectFit={'contain'}
+            imageLocation={blobImage}
+            styles={{ marginBottom: '4px' }}
+
+          />
         )}
         <div className={'my-4'}>
           <Input label={'설명'} id={'comment'} placeholder={'이 곳을 한 줄로 나타낸다면?'} maxLength={40} />

@@ -3,18 +3,16 @@ import { FaRegHeart } from '@react-icons/all-files/fa/FaRegHeart';
 import { FiX } from '@react-icons/all-files/fi/FiX';
 import { IoMdPhotos } from '@react-icons/all-files/io/IoMdPhotos';
 import { useAtomValue, useSetAtom } from 'jotai';
-import Image from 'next/image';
 import { Fragment, memo, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import useFetcher from '@/app/hooks/useFetcher';
 import { favoriteReviewsAtom, isPopupOpenAtom, setFavoritesAtom } from '@/atom/common';
 import { activeReviewAtom, findMoreReviewsAtom, locationAtom, reviewsAtom, setActiveReviewAtom } from '@/atom/search';
+import CommonImage from '@/components/CommonImage';
 
 export default function usePhotoPopup() {
   const [isOpen, setOpen] = useState(false);
-
-  console.log("USE PHOTO POPUP");
 
   const setFavorite = useSetAtom(setFavoritesAtom);
   const setIsPopupOpen = useSetAtom(isPopupOpenAtom);
@@ -98,14 +96,13 @@ export default function usePhotoPopup() {
                   </div>
                 </div>
                 <div className={'overflow-scroll non-scroll'} style={{ flex: 1 }}>
-                  <div className={'relative w-full h-[300px]'}>
-                    <Image
-                      fill
-                      objectFit={'contain'}
-                      alt={`${location.name} image`}
-                      src={activeReview?.imageLocation || ''}
-                    />
-                  </div>
+                  <CommonImage
+                    width={'100%'}
+                    height={'300px'}
+                    objectFit={'contain'}
+                    alt={`${location.name} image`}
+                    imageLocation={activeReview?.imageLocation || ''}
+                  />
                   <div className={'px-4 mt-4 flex gap-2'}>
                     <div onClick={() => favoriteClickHandler(activeReview.id)}>
                       {favoriteReviewIds.includes(activeReview?.id || 0) ? (
@@ -126,22 +123,18 @@ export default function usePhotoPopup() {
               </div>
               {/* 이미지들 */}
               <div className={'flex flex-wrap gap-2 p-4'}>
+
                 {reviews.items.map((review: Review) => {
                   return (
-                    <div
+                    <CommonImage
                       key={review.id}
+                      width={'25%'}
+                      height={'120px'}
+                      cursor={'pointer'}
+                      imageLocation={review.imageLocation}
+                      alt={`${location.name} image ${review.id}th`}
                       onClick={() => setActiveReview(review)}
-                      className={'relative w-[25%] h-[120px] cursor-pointer'}
-                    >
-                      {review.imageLocation &&
-                        <Image
-                          fill
-                          objectFit={'cover'}
-                          src={review.imageLocation}
-                          alt={`${location.name} image ${review.id}th`}
-                        />
-                      }
-                    </div>
+                    />
                   );
                 })}
                 {(reviews.total > (reviews.offset + reviews.limit)) && (
