@@ -2,16 +2,17 @@ import { atom } from 'jotai';
 
 import { isPopupOpenAtom } from '@/atom/common';
 
-import { createReview, findLocations, findReviews } from './fetch';
+import { createReview, findLocation, findLocations, findReviewLikeCount, findReviews } from './fetch';
 import * as Fetch from './fetch';
 
 export const boundsAtom = atom({ _min: {}, _max: {} });
 export const locationsAtom = atom({ offset: 0, limit: 0, total: 0, items: [] });
-export const reviewsAtom = atom([]);
-export const activeReviewAtom = atom({ item: {}, index: 0 });
+export const locationAtom = atom({});
+export const reviewsAtom = atom({ offset: 0, limit: 0, total: 0, items: [] });
+export const activeReviewAtom = atom({});
 export const activeCategoryAtom = atom('');
 
-export const isLoadingAtom = atom(false);
+export const isLoadingAtom = atom(true);
 
 export const uploadImageAtom = atom(null, async (get, set, data) => {
   try {
@@ -64,12 +65,49 @@ export const findLocationsAtom = atom(null, async (get, set, data) => {
   return res;
 });
 
-export const findReviewsAtom = atom(null, async (get, set, data) => {
-  const res = await findReviews({ params: { id: data.id } });
+export const findLocationAtom = atom(null, async (get, set, data) => {
+  const res = await findLocation({ params: { id: data.id } });
 
-  set(reviewsAtom, res.items);
-  set(activeReviewAtom, { item: res.items[0], index: 0 });
+  set(locationAtom, res);
 
   return true;
 });
 
+export const findReviewsAtom = atom(null, async (get, set, data) => {
+  const res = await findReviews({ params: { id: data.id } });
+
+  set(reviewsAtom, res);
+  set(activeReviewAtom, res.items[0]);
+
+  return true;
+});
+
+export const findMoreReviewsAtom = atom(null, async (get, set, data) => {
+  const res = await findReviews({ params: { id: data.id }, query: { offset: data.offset } });
+
+  const prevReviews = get(reviewsAtom);
+  set(reviewsAtom, {
+    limit: res.limit,
+    total: res.total,
+    offset: res.offset,
+    items: [...prevReviews.items, ...res.items],
+  });
+
+  return true;
+});
+
+export const setActiveReviewAtom = atom(null, async (get, set, review) => {
+  try {
+    set(activeReviewAtom, review);
+
+    const likeCount = await findReviewLikeCount({ params: { id: review.id } });
+
+    if (likeCount !== review.likeCount) {
+      review.likeCount = likeCount;
+      set(activeReviewAtom, { ...review, likeCount });
+    }
+  } catch (err) {
+    console.log(err);
+    // NOTHING
+  }
+})

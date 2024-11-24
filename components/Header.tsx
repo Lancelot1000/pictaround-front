@@ -5,13 +5,14 @@ import React, { useEffect } from 'react';
 
 import useSideBar from '@/app/hooks/useSideBar';
 import { findMeAtom } from '@/atom/auth';
-import { findCategoriesAtom } from '@/atom/common';
+import { findCategoriesAtom, findFavoritesAtom } from '@/atom/common';
 
 export default function Component() {
 
   const { open, SideBarComponent } = useSideBar();
 
   const findMe = useSetAtom(findMeAtom);
+  const findFavorites = useSetAtom(findFavoritesAtom);
   const findCategories = useSetAtom(findCategoriesAtom);
 
   useEffect(() => {
@@ -25,7 +26,10 @@ export default function Component() {
         const userSession = cookieStore.find(cookie => cookie.split("=")[0].trim() === "USER_SESSION");
         if (!userSession) return;
 
-        await findMe();
+        await Promise.all([
+          findMe(),
+          findFavorites()
+        ]);
 
       } catch(err) {
         document.cookie = "USER_SESSION=; path=/; max-age=-1";

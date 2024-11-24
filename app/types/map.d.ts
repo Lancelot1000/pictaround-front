@@ -14,24 +14,36 @@ type Bound = {
   _lng: number;
 }
 
+interface List {
+  limit: number;
+  offset: number;
+  total: number;
+}
+interface PaginationList {
+  limit: number;
+  offset: number;
+  total: number;
+}
+
 interface LocationInfo {
   id: string;
   name: string;
-  location: string;
-  lat: Lat;
-  lng: Lng;
+  imageLocation: string;
+  latitude: Lat;
+  longitude: Lng;
   categoryId: string;
 }
 
-interface LocationList extends List {
+interface LocationList extends PaginationList {
   items: LocationInfo[];
 }
 
 interface Review {
-  id?: string;
-  name?: string;
+  id?: number;
   comment?: string;
-  location?: string;
+  imageLocation?: string;
+  createdDateTime?: string;
+  likeCount?: number;
 }
 
 interface ReviewList extends List {

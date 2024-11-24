@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { createQueryString } from '@/utils/common';
 
-export default function Component({ offset, limit, total }: { offset: number, limit: number, total: number }) {
+export default function Component({ offset, limit, total }: PaginationList) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

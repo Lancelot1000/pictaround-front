@@ -7,11 +7,11 @@ import Script from 'next/script';
 import { useEffect, useRef, useState } from 'react';
 
 import useLoading from '@/app/hooks/useLoading';
-import usePhotoPopup from '@/app/hooks/usePhotoPopup';
+import useModal from '@/app/hooks/useModal';
 import { isPopupOpenAtom } from '@/atom/common';
 import {
   activeCategoryAtom,
-  boundsAtom,
+  boundsAtom, findLocationAtom,
   findLocationsAtom, findReviewsAtom,
 } from '@/atom/search';
 
@@ -22,11 +22,11 @@ import {
 
 const MAP_ID = 'naver-map';
 
-export default function Map({ loc }: { loc: Coordinates }) {
+export default function Map({ loc, popupOpenAction }: { loc: Coordinates, popupOpenAction: () => void }) {
   const mapRef = useRef<NaverMap | null>();
 
   const { open: loadingOpen, close: loadingClose, LoadingComponent } = useLoading();
-  const { open, LocationInfoComponent } = usePhotoPopup();
+  const {open: errorModalOpen, close: errorModalClose, ModalComponent: ErrorModalComponent } = useModal()
   const searchParams = useSearchParams();
 
   const [initLoading, setInitLoading] = useState(true);
@@ -34,6 +34,7 @@ export default function Map({ loc }: { loc: Coordinates }) {
 
   const findLocations = useSetAtom(findLocationsAtom);
   const findReviews = useSetAtom(findReviewsAtom);
+  const findLocation = useSetAtom(findLocationAtom);
   const setBounds = useSetAtom(boundsAtom);
   const setActiveCategory = useSetAtom(activeCategoryAtom);
 
@@ -46,7 +47,7 @@ export default function Map({ loc }: { loc: Coordinates }) {
     const callApi = async () => {
       const offset = searchParams.get('offset') || 0;
       const limit = searchParams.get('limit') || 20;
-      const category = searchParams.get('category') || '';
+      const category = searchParams.get('category') || 'all';
       const { _min, _max } = mapRef.current.getBounds();
 
       if (activeCategory === category) {
@@ -89,7 +90,7 @@ export default function Map({ loc }: { loc: Coordinates }) {
     // 마커 위치 불러오기
     const { _min, _max } = mapRef.current.getBounds();
     setBounds({ _min, _max });
-    const category = searchParams.get('category') || '';
+    const category = searchParams.get('category') || 'all';
     findMarkers(_min, _max, 0, 20, category);
 
     setInitLoading(false);
@@ -115,18 +116,21 @@ export default function Map({ loc }: { loc: Coordinates }) {
   const researchLocation = () => {
     const { _min, _max } = mapRef.current.getBounds();
     setBounds({ _min, _max });
-    const category = searchParams.get('category') || '';
+    const category = searchParams.get('category') || 'all';
     findMarkers(_min, _max, 0, 20, category);
   };
 
   const markerClickHandler = async (id: string) => {
     try {
       loadingOpen();
-      const res = await findReviews({ id });
+      const [_, res] = await Promise.all([
+        findLocation({ id }),
+        findReviews({ id }),
+      ]);
 
-      if (res) open();
+      if (res) popupOpenAction();
     } catch (err) {
-      console.log(err);
+      errorModalOpen();
     } finally {
       loadingClose();
     }
@@ -139,7 +143,7 @@ export default function Map({ loc }: { loc: Coordinates }) {
 
       createMarkers(res.items, mapRef.current, markerClickHandler);
     } catch (err) {
-      console.log(err);
+      errorModalOpen();
     } finally {
       setShowInitButton(false);
     }
@@ -165,8 +169,19 @@ export default function Map({ loc }: { loc: Coordinates }) {
           </div>
         )}
       </div>
-      <LocationInfoComponent />
       <LoadingComponent />
+      <ErrorModalComponent
+        title={'알림'}
+        content={'일시적인 오류입니다.\n다시시도해주세요.'}
+        buttons={[
+          {
+            size: 's',
+            label: '확인',
+            onClick: errorModalClose,
+            style: { backgroundColor: 'royalblue' },
+          },
+        ]}
+      />
     </>
   );
 };

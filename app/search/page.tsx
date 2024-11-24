@@ -1,14 +1,15 @@
 'use client';
 
-
 import { Suspense, useEffect, useState } from 'react';
 
+import usePhotoPopup from '@/app/hooks/usePhotoPopup';
 import Map from '@/app/search/_components/Map';
 import Categories from '@/components/Categories';
 
 import Photos from './_components/Photos';
 
 export default function Page() {
+  const { open, LocationInfoComponent } = usePhotoPopup();
 
   const [coordinates, setCoordinates] = useState<Coordinates>([126.976882, 37.574187]);
 
@@ -22,10 +23,11 @@ export default function Page() {
   return (
     <div>
       <Categories />
-      <Map loc={coordinates} />
+      <Map loc={coordinates} popupOpenAction={open} />
       <Suspense fallback={<div>LOADING___!!!</div>}>
-        <Photos />
+        <Photos popupOpenAction={open} />
       </Suspense>
+      <LocationInfoComponent />
     </div>
   );
 }

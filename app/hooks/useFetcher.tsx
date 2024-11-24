@@ -8,6 +8,8 @@ export default function useFetcher<T = void>({ apiCall, unlockLoading = true }: 
 
   const invokeFetch = async (data?: T) => {
     try {
+      if (isLoading) return;
+
       setIsLoading(true);
       await apiCall(data);
     } catch (e) {

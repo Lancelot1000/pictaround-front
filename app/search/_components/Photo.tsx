@@ -3,23 +3,26 @@ import { useSetAtom } from 'jotai/index';
 import Image from 'next/image';
 import { useState } from 'react';
 
-import usePhotoPopup from '@/app/hooks/usePhotoPopup';
 import { isPopupOpenAtom } from '@/atom/common';
-import { findReviewsAtom } from '@/atom/search';
+import { findLocationAtom, findReviewsAtom } from '@/atom/search';
 
 
-export default function Component({ data }: { data: LocationInfo }) {
-  const { open, LocationInfoComponent } = usePhotoPopup();
-
+export default function Component({ data, open }: { data: LocationInfo, open: () => void }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const isPopupOpen = useAtomValue(isPopupOpenAtom);
   const findReviews = useSetAtom(findReviewsAtom);
+  const findLocation = useSetAtom(findLocationAtom);
 
   const onPhotoClick = async () => {
     try {
       setIsLoading(true);
-      const res = await findReviews({ id: data.id });
+
+      const [_, res] = await Promise.all([
+        findLocation({ id: data.id }),
+        findReviews({ id: data.id }),
+      ]);
+
       if (res) {
         open();
       }
@@ -39,7 +42,7 @@ export default function Component({ data }: { data: LocationInfo }) {
         onClick={onPhotoClick}
         className={'relative w-full h-full cursor-pointer'}
       >
-        <Image src={data.location} alt={data.name} fill objectFit="cover" />
+        <Image src={data.imageLocation} alt={data.name} fill objectFit="cover" />
         {isLoading && (
           <div className={'flex items-center justify-center h-full bg-[#00000070]'}>
             <svg aria-hidden="true" role="status"
@@ -55,7 +58,6 @@ export default function Component({ data }: { data: LocationInfo }) {
           </div>
         )}
       </div>
-      <LocationInfoComponent />
     </div>
   );
 }

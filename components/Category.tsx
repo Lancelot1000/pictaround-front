@@ -1,5 +1,6 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
+import { Category } from '@/app/types/common';
 import { createQueryString } from '@/utils/common';
 
 export default function Component({ data }: { data: Category }) {

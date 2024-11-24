@@ -20,25 +20,21 @@ export const createMarkers = (items: LocationInfo[], ref: NaverMap, markerClickH
     if (markerIdList.includes(item.id)) return;
 
     ref.marker = new window.naver.maps.Marker({
-      position: new window.naver.maps.LatLng(item.lat, item.lng),
+      position: new window.naver.maps.LatLng(item.latitude, item.longitude),
       map: ref,
     });
 
     ref.markerList.push({ markerInfo: ref.marker, id: item.id });
 
-    // TODO: APPLY PHOTO POPUP
     window.naver.maps.Event.addListener(ref.marker, 'click', () => {
-      // console.log(item);
       markerClickHandler(item.id);
     });
   });
 
-  cleanupMarkers(items, ref);
+  cleanupMarkers(ref);
 };
 
-const cleanupMarkers = (items: LocationInfo[], ref: NaverMap) => {
-  if (ref.markerList.length < 100) return;
-
+const cleanupMarkers = (ref: NaverMap) => {
   const mapBounds = ref.getBounds();
 
   for (let i = 0; i < ref.markerList.length; i++) {

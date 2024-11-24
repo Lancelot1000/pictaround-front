@@ -31,7 +31,7 @@ export async function findCategories() {
 /**
  * location 생성
  */
-export async function createReview({body}) {
+export async function createReview({ body }) {
   const res = await fetcher('/review', 'POST', { body });
 
   return res;
@@ -44,9 +44,16 @@ export async function findLocations({ query }) {
 
 }
 
-
-export async function findReviews({ params }) {
+export async function findLocation({ params }) {
   const res = await fetcher(`/search/${params.id}`, 'GET', {});
+
+  return res;
+
+}
+
+
+export async function findReviews({ params, query = {} }) {
+  const res = await fetcher(`/reviews/${params.id}`, 'GET', { query: { ...query, limit: 1 } });
 
   return res;
 }
@@ -54,6 +61,37 @@ export async function findReviews({ params }) {
 export async function findMe() {
   try {
     const res = await fetcher(`/user/me`, 'GET');
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function findFavorites() {
+  try {
+    const res = await fetcher(`/favorite`, 'GET');
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function setFavorite({params}) {
+  try {
+    const res = await fetcher(`/favorite/${params.id}`, 'POST');
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function findReviewLikeCount({params}) {
+  try {
+
+    const res = await fetcher(`/favorite/${params.id}`, `GET`);
 
     return res;
   } catch (err) {
@@ -128,7 +166,7 @@ export async function sendFile({ url, file }) {
       method: 'PUT',
       headers: { 'Content-Type': file.type },
       body: file,
-    })
+    });
     // const res = await fetcher(
     //   `${process.env.NEXT_PUBLIC_AWS_HOST}${url}`,
     //   'PUT',
@@ -139,6 +177,7 @@ export async function sendFile({ url, file }) {
     throw err;
   }
 }
+
 /**
  * S3 UPLOADER END
  */
