@@ -11,6 +11,7 @@ const font = Noto_Sans({
   display: 'swap',
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const logo_font = Protest_Riot({
   weight: '400',
   subsets: ['latin'],
@@ -24,6 +25,7 @@ export const metadata: Metadata = {
 
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     naver: any;
   }
 }

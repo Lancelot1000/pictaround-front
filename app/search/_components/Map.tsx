@@ -129,6 +129,7 @@ export default function Map({ loc, popupOpenAction }: { loc: Coordinates, popupO
       ]);
 
       if (res) popupOpenAction();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       errorModalOpen();
     } finally {
@@ -142,6 +143,7 @@ export default function Map({ loc, popupOpenAction }: { loc: Coordinates, popupO
       const res: LocationList = await findLocations({ _min, _max, offset, limit, category });
 
       createMarkers(res.items, mapRef.current, markerClickHandler);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       errorModalOpen();
     } finally {

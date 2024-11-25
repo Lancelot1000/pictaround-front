@@ -31,6 +31,7 @@ export default function Component() {
           findFavorites()
         ]);
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch(err) {
         document.cookie = "USER_SESSION=; path=/; max-age=-1";
       }

@@ -12,7 +12,8 @@ export default function useFetcher<T = void>({ apiCall, unlockLoading = true }: 
 
       setIsLoading(true);
       await apiCall(data);
-    } catch (e) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
       setIsLoading(false);
     } finally {
       if (unlockLoading) {

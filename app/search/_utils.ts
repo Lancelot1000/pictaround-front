@@ -14,6 +14,7 @@ export const createMyPosition = (marker: Coordinates, ref: NaverMap) => {
 export const createMarkers = (items: LocationInfo[], ref: NaverMap, markerClickHandler:(id: string) => void) => {
   if (items.length === 0) return;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const markerIdList: string[] = ref.markerList.map((item: any) => item.id);
 
   items.forEach(item => {

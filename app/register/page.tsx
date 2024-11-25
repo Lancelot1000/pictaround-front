@@ -2,7 +2,6 @@
 
 import { useAtomValue } from 'jotai';
 import { useSetAtom } from 'jotai/index';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -106,6 +105,8 @@ export default function Page() {
       form.setValue('imageLocation', imageLocation);
 
       setBlobImage(window.URL.createObjectURL(file));
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setErrorMessage('일시적인 오류입니다.\n다시 시도해주세요.');
       errorModalOpen();

@@ -1,4 +1,4 @@
-export async function GET(request: Request) {
+export async function GET() {
   return new Response(JSON.stringify([
     {
       "title": "스타벅스 한국프레스센터점",
