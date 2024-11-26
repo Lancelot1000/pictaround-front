@@ -142,6 +142,17 @@ export async function checkIdDuplicated({ params }) {
   }
 }
 
+export async function logout() {
+  try {
+    const res = await fetcher(`/logout`, 'POST', {});
+
+    return res;
+
+  } catch (err) {
+    throw err;
+  }
+}
+
 /**
  * AUTH END
  */

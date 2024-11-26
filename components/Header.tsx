@@ -3,6 +3,7 @@
 import { useSetAtom } from 'jotai/index';
 import React, { useEffect } from 'react';
 
+import useModal from '@/app/hooks/useModal';
 import useSideBar from '@/app/hooks/useSideBar';
 import { findMeAtom } from '@/atom/auth';
 import { findCategoriesAtom, findFavoritesAtom } from '@/atom/common';
@@ -10,6 +11,7 @@ import { findCategoriesAtom, findFavoritesAtom } from '@/atom/common';
 export default function Component() {
 
   const { open, SideBarComponent } = useSideBar();
+  const { open: openModal, close, ModalComponent } = useModal();
 
   const findMe = useSetAtom(findMeAtom);
   const findFavorites = useSetAtom(findFavoritesAtom);
@@ -22,20 +24,20 @@ export default function Component() {
         await findCategories();
 
         // 유저 정보
-        const cookieStore = document.cookie.split(";");
-        const userSession = cookieStore.find(cookie => cookie.split("=")[0].trim() === "USER_SESSION");
+        const cookieStore = document.cookie.split(';');
+        const userSession = cookieStore.find(cookie => cookie.split('=')[0].trim() === 'USER_SESSION');
         if (!userSession) return;
 
         await Promise.all([
           findMe(),
-          findFavorites()
+          findFavorites(),
         ]);
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch(err) {
-        document.cookie = "USER_SESSION=; path=/; max-age=-1";
+      } catch (err) {
+        openModal();
       }
-    }
+    };
 
     init();
   }, []);
@@ -59,6 +61,18 @@ export default function Component() {
         <MenuIcon />
       </header>
       <SideBarComponent />
+      <ModalComponent
+        title={'알림'}
+        content={'일시적인 오류입니다.\n다시 시도해주세요.'}
+        buttons={[
+          {
+            size: 's',
+            label: '확인',
+            onClick: close,
+            style: { backgroundColor: 'royalblue' },
+          },
+        ]}
+      />
     </div>
   );
 }

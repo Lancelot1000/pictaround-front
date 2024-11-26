@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { myInformationAtom } from '@/atom/auth';
+import { logoutAtom, myInformationAtom } from '@/atom/auth';
 import { isPopupOpenAtom } from '@/atom/common';
 import Avatar from '@/components/Avatar';
 
@@ -13,6 +13,7 @@ export default function useSideBar() {
 
   const myInformation = useAtomValue<User>(myInformationAtom);
 
+  const logout = useSetAtom(logoutAtom);
   const setIsPopupOpen = useSetAtom(isPopupOpenAtom);
 
   useEffect(() => {
@@ -34,6 +35,14 @@ export default function useSideBar() {
   const close = () => {
     setOpen(false);
     setIsPopupOpen(false);
+  };
+
+  const logoutHandler = async () => {
+    try {
+      await logout();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
 
@@ -62,21 +71,24 @@ export default function useSideBar() {
               <div onClick={close} className="flex justify-end">
                 <FiX size={24} onClick={close} color={'#000'} className="cursor-pointer" />
               </div>
-              <div className="py-4 my-4 flex justify-between items-center">
+              <div className="pt-4 mt-4 flex justify-between items-center">
                 <Avatar location={''} />
-                {
-                  !!myInformation?.nickname ? (
-                    <span className="text-xl font-mediums">
-                    {myInformation.nickname}
+                {!!myInformation?.nickname ? (
+                  <span className="text-xl font-medium">{myInformation.nickname}</span>
+                ) : (
+                  <Link href={'/login'}>
+                    <span className="text-xl font-medium">로그인</span>
+                  </Link>
+                )}
+              </div>
+              <div className={'flex justify-end mb-4'}>
+                {!!myInformation?.nickname &&
+                  <span
+                    onClick={logoutHandler}
+                    className={'text-end text-sm underline mt-2 cursor-pointer'}
+                  >
+                    로그아웃
                   </span>
-                  ) : (
-                    <Link href={'/login'}>
-                  <span className="text-xl font-mediums">
-                    로그인
-                  </span>
-                    </Link>
-
-                  )
                 }
               </div>
               {menus.map(menu => {

@@ -51,3 +51,15 @@ export const checkIdDuplicatedAtom = atom(null, async (get, set, data) => {
     throw err;
   }
 });
+
+export const logoutAtom = atom(null, async (get, set) => {
+  try {
+    const res = await Fetch.logout();
+
+    set(myInformationAtom, {});
+    return res;
+
+  } catch (err) {
+    throw err;
+  }
+});
