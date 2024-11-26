@@ -26,8 +26,9 @@ export default function Component({ data, open }: { data: LocationInfo, open: ()
       if (res) {
         open();
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      console.log(err);
+      // NOTHING
     } finally {
       setIsLoading(false);
     }

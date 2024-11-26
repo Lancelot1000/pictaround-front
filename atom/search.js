@@ -106,8 +106,8 @@ export const setActiveReviewAtom = atom(null, async (get, set, review) => {
       review.likeCount = likeCount;
       set(activeReviewAtom, { ...review, likeCount });
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
-    console.log(err);
     // NOTHING
   }
 })

@@ -41,8 +41,6 @@ export default function usePhotoPopup() {
   const scrollTop = () => {
     if (modalRef?.current === null) return;
 
-    console.log(modalRef.current);
-
     modalRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 

@@ -16,8 +16,8 @@ export default function Component({ scrollTop }: { scrollTop: () => void }) {
   const findMoreReviewsHandler = async () => {
     try {
       await findMoreReviews({ id: location.id, offset: reviews.offset + reviews.limit });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      console.log(err);
     }
   };
 

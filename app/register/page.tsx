@@ -37,7 +37,6 @@ export default function Page() {
   const createReview = useSetAtom(createReviewAtom);
 
   const myInfo: User = useAtomValue(myInformationAtom);
-  console.log({ myInfo });
   const categories = useAtomValue(categoriesAtom);
 
   const [blobImage, setBlobImage] = useState<string>('');
@@ -86,8 +85,8 @@ export default function Page() {
         };
       });
       setKeywordOptions(keywords);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      console.log(err);
     }
   };
 

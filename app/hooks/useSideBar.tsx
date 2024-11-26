@@ -40,8 +40,8 @@ export default function useSideBar() {
   const logoutHandler = async () => {
     try {
       await logout();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      console.log(err);
     }
   };
 

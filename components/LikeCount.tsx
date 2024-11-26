@@ -30,8 +30,8 @@ export default function Component() {
         return;
       }
       await setFavorite({ id });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      console.log(err);
     }
   };
 
