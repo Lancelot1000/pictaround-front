@@ -5,6 +5,10 @@
 - 배포 URL: https://pictaround.vercel.app
 - TEST ID: test
 - Test pw: password
+- 코드
+  - 백엔드: https://github.com/Lancelot1000/pictaround-back
+  - 프론트: https://github.com/Lancelot1000/pictaround-front
+   
 
 ## 프로젝트 소개
 - PictARound는 picture + around의 합성어로, 근처의 장소를 사진으로 보는 웹입니다.
@@ -17,11 +21,18 @@
 
 ## 개발 환경
 - FRONT: next.js, jotai, tailwind
-- BACK: java spring boot
+- BACK: java spring boot, mySQL, JPA
 
 - 프론트 배포: vercel
 - 백엔드 배포: AWS (EC2, RDS) 
 
 ## 기능
-- 로그인 / 회원가입
-- 위치기반 지도 표시
+- 로그인
+- 회원가입
+- 장소 등록
+- 현 위치 기반 장소 찾기
+
+## ERD
+![pictaround](https://github.com/user-attachments/assets/098ff7d6-4164-447d-9b42-ad8d1f781c42)
+
+
