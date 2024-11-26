@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --background: #ffffff;
+    --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+    }
+}
+
+body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+select {
+    -webkit-appearance:none; /* 크롬 화살표 없애기 */
+    -moz-appearance:none; /* 파이어폭스 화살표 없애기 */
+    appearance:none /* 화살표 없애기 */
+}
+
+.logo {
+    font-family: "Protest Riot", "Noto Sans KR", sans-serif;
+    font-weight: 600;
+}
+
+.center {
+    text-align: center;
+}
+
+.horizon_center {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.vertical_center {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.gradient {
+    position: absolute;
+    width: 40%;
+    height: 100px;
+    top: -90%;
+    filter: blur(20px);
+    border-radius: 50%;
+    animation: blueAnimation 0.7s ease-out;
+}
+
+.non-scroll {
+    -ms-overflow-style: none;
+}
+
+.non-block {
+    user-select: none;
+    -webkit-user-select: none;
+    /* (safari, chrome) browsers */
+    -moz-user-select: none;
+    /* mozilla browsers */
+    -khtml-user-select: none;
+    /* konqueror browsers */
+
+    -ms-user-select: none; /* IE10+ */
+}
+
+.info-box {
+    border-radius: 4px;
+    background-color: #fde9d0;
+}
+
+.error-box {
+    border-radius: 4px;
+    background-color: #f1dede;
+    border: 1px dashed #a1a0ee;
+}
+
+.info-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #867864;
+}
+.error-text {
+    font-size: 16px;
+    color: #89606c;
+}
+
+.non-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.currentPosition_outer {
+    width: 15px;
+    height: 15px;
+    border: 1px solid #f06292;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.currentPosition_inner {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #f06292;
+    animation: currentPositionAnimation 1s linear infinite;
+}
+
+@keyframes currentPositionAnimation {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes blueAnimation {
+    0% {
+        top: -200%;
+    }
+    100% {
+        top: -90%;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 100%, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translateZ(0);
+    }
+}
+
+.ringing {
+    animation: ring 1s linear;
+}
+
+@keyframes ring {
+    0% { transform: rotateZ(0); }
+    1% { transform: rotateZ(20deg); }
+    10% { transform: rotateZ(-20deg); }
+    19% { transform: rotateZ(20deg); }
+    28% { transform: rotateZ(-20deg); }
+    37% { transform: rotateZ(15deg); }
+    46% { transform: rotateZ(-15deg); }
+    55% { transform: rotateZ(10deg); }
+    64% { transform: rotateZ(-10deg); }
+    73% { transform: rotateZ(5deg); }
+    82% { transform: rotateZ(-5deg); }
+    100% { transform: rotateZ(0); }
+}
