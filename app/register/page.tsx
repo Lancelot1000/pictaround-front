@@ -8,6 +8,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 
 import useFetcher from '@/app/hooks/useFetcher';
 import useModal from '@/app/hooks/useModal';
+import { myInformationAtom } from '@/atom/auth';
 import { categoriesAtom } from '@/atom/common';
 import * as Fetch from '@/atom/fetch';
 import { createReviewAtom, uploadImageAtom } from '@/atom/search';
@@ -35,6 +36,8 @@ export default function Page() {
   const uploadImage = useSetAtom(uploadImageAtom);
   const createReview = useSetAtom(createReviewAtom);
 
+  const myInfo: User = useAtomValue(myInformationAtom);
+  console.log({ myInfo });
   const categories = useAtomValue(categoriesAtom);
 
   const [blobImage, setBlobImage] = useState<string>('');
@@ -115,7 +118,6 @@ export default function Page() {
 
   const onSubmit: SubmitHandler<RegisterForm> = async (data) => {
     try {
-      console.log(data);
       if (data.category === '0') throw '카테고리를 선택해주세요.';
       if (!data.keyword || (data.keyword !== data.location?.title)) throw '장소를 선택해주세요.';
       if (!data.imageLocation) throw '이미지를 선택해주세요.';
@@ -186,6 +188,12 @@ export default function Page() {
           <Input label={'설명'} id={'comment'} placeholder={'이 곳을 한 줄로 나타낸다면?'} maxLength={40} />
         </div>
         <div className={'my-[20px]'}>
+          {!myInfo?.nickname && (
+            <div className={'p-10 border border-yellow-200 bg-yellow-100 border-dashed mb-[20px]'}>
+              <p className={'text-center'}>비회원인 경우, <span className={'logo'}>PictAround</span> 내에 등록되지 않은 장소만 등록가능합니다.
+              </p>
+            </div>
+          )}
           <Button
             label={'등록'}
             type={'submit'}
