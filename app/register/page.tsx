@@ -164,7 +164,12 @@ export default function Page() {
           />
         </div>
         <div className={'pb-2'}>
-          <FileInput id={'file'} label={'이미지 업로더'} handler={onFileUploadHandler} />
+          <FileInput
+            id={'file'}
+            label={'이미지 업로더'}
+            accept={'.jpg, .jpeg, .png'}
+            handler={onFileUploadHandler}
+          />
         </div>
         {blobImage && (
           <CommonImage

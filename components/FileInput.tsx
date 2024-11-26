@@ -3,10 +3,11 @@ import { useFormContext } from 'react-hook-form';
 type Props = {
   label: string;
   id: string;
+  accept?: string;
   handler: (file: File) => void;
 }
 
-export default function Component({ label, id, handler } : Props) {
+export default function Component({ label, id, accept = '', handler } : Props) {
   const { register } = useFormContext();
 
 
@@ -20,6 +21,7 @@ export default function Component({ label, id, handler } : Props) {
       <input
         {...register(id)}
         type={'file'}
+        accept={accept}
         onChange={(e) => {
           Array.from(e.target.files ?? []).forEach((file: File) => {
             handler(file);
