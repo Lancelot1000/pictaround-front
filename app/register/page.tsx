@@ -8,7 +8,6 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 
 import useFetcher from '@/app/hooks/useFetcher';
 import useModal from '@/app/hooks/useModal';
-import { myInformationAtom } from '@/atom/auth';
 import { categoriesAtom } from '@/atom/common';
 import * as Fetch from '@/atom/fetch';
 import { createReviewAtom, uploadImageAtom } from '@/atom/search';
@@ -19,7 +18,6 @@ import Form from '@/components/Form';
 import Input from '@/components/Input';
 import Search from '@/components/Search';
 import Select from '@/components/Select';
-import { resizeFile } from '@/utils/resizeFile';
 
 type RegisterForm = {
   category: string,
@@ -36,7 +34,6 @@ export default function Page() {
   const uploadImage = useSetAtom(uploadImageAtom);
   const createReview = useSetAtom(createReviewAtom);
 
-  const myInfo: User = useAtomValue(myInformationAtom);
   const categories = useAtomValue(categoriesAtom);
 
   const [blobImage, setBlobImage] = useState<string>('');

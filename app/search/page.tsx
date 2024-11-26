@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
 import usePhotoPopup from '@/app/hooks/usePhotoPopup';
 import Map from '@/app/search/_components/Map';
@@ -20,11 +20,11 @@ export default function Page() {
   }, []);
 
   return (
-    <div>
+    <Suspense>
       <Categories />
       <Map loc={coordinates} popupOpenAction={open} />
       <Photos popupOpenAction={open} />
       <LocationInfoComponent />
-    </div>
+    </Suspense>
   );
 }
