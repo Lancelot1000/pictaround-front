@@ -143,3 +143,22 @@ select {
         transform: translateZ(0);
     }
 }
+
+.ringing {
+    animation: ring 1s linear;
+}
+
+@keyframes ring {
+    0% { transform: rotateZ(0); }
+    1% { transform: rotateZ(20deg); }
+    10% { transform: rotateZ(-20deg); }
+    19% { transform: rotateZ(20deg); }
+    28% { transform: rotateZ(-20deg); }
+    37% { transform: rotateZ(15deg); }
+    46% { transform: rotateZ(-15deg); }
+    55% { transform: rotateZ(10deg); }
+    64% { transform: rotateZ(-10deg); }
+    73% { transform: rotateZ(5deg); }
+    82% { transform: rotateZ(-5deg); }
+    100% { transform: rotateZ(0); }
+}

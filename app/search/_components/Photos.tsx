@@ -16,6 +16,7 @@ export default function Component({ popupOpenAction }: { popupOpenAction: () => 
 
   const isLoading = useAtomValue(isLoadingAtom);
   const locations: LocationList = useAtomValue(locationsAtom);
+  console.log(locations);
 
   return (
     <div>
