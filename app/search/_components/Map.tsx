@@ -22,11 +22,11 @@ import {
 
 const MAP_ID = 'naver-map';
 
-export default function Map({ loc, popupOpenAction }: { loc: Coordinates, popupOpenAction: () => void }) {
+export default function Map({ loc, popupOpenAction }: { loc: Coordinates | null, popupOpenAction: () => void }) {
   const mapRef = useRef<NaverMap | null>();
 
   const { open: loadingOpen, close: loadingClose, LoadingComponent } = useLoading();
-  const {open: errorModalOpen, close: errorModalClose, ModalComponent: ErrorModalComponent } = useModal()
+  const { open: errorModalOpen, close: errorModalClose, ModalComponent: ErrorModalComponent } = useModal();
   const searchParams = useSearchParams();
 
   const [initLoading, setInitLoading] = useState(true);
@@ -63,7 +63,7 @@ export default function Map({ loc, popupOpenAction }: { loc: Coordinates, popupO
 
   const initializeMap = (pos: Coordinates | null) => {
     const mapOptions = {
-      center: new window.naver.maps.LatLng(pos || loc),
+      center: new window.naver.maps.LatLng(pos || loc || [126.976882, 37.574187]),
       zoom: 16,
       logoControlOptions: {
         position: window.naver.maps.Position.BOTTOM_RIGHT,
@@ -83,8 +83,8 @@ export default function Map({ loc, popupOpenAction }: { loc: Coordinates, popupO
     });
 
     // 현위치 마커로 표시
-    if (!pos) {
-      createMyPosition(loc, mapRef.current);
+    if (pos) {
+      createMyPosition(pos, mapRef.current);
     }
 
     // 마커 위치 불러오기
@@ -99,7 +99,8 @@ export default function Map({ loc, popupOpenAction }: { loc: Coordinates, popupO
   useEffect(() => {
     if (!window.naver || !mapRef?.current) return;
 
-    initializeMap(null);
+    // 기본설정값과 다른지 확인
+    initializeMap(loc);
 
   }, [loc]);
 
