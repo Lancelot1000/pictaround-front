@@ -53,7 +53,7 @@ export async function findLocation({ params }) {
 
 
 export async function findReviews({ params, query = {} }) {
-  const res = await fetcher(`/reviews/${params.id}`, 'GET', { query: { ...query, limit: 1 } });
+  const res = await fetcher(`/reviews/${params.id}`, 'GET', { query: { ...query } });
 
   return res;
 }
@@ -173,15 +173,11 @@ export async function getS3Url({ body }) {
 
 export async function sendFile({ url, file }) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_AWS_HOST}${url}`, {
+    const res = await fetch(`${url}`, {
       method: 'PUT',
       headers: { 'Content-Type': file.type },
       body: file,
     });
-    // const res = await fetcher(
-    //   `${process.env.NEXT_PUBLIC_AWS_HOST}${url}`,
-    //   'PUT',
-    //   { body, type });
 
     return res;
   } catch (err) {

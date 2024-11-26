@@ -45,24 +45,28 @@ export const createReviewAtom = atom(null, async (get, set, data) => {
 });
 
 export const findLocationsAtom = atom(null, async (get, set, data) => {
-  set(isLoadingAtom, true);
-  const res = await findLocations({
-    query: {
-      minLng: data._min._lng,
-      minLat: data._min._lat,
-      maxLng: data._max._lng,
-      maxLat: data._max._lat,
-      offset: data.offset || 0,
-      limit: data.limit || 20,
-      category: data.category || '',
-    },
-  });
+  try {
+    set(isLoadingAtom, true);
+    const res = await findLocations({
+      query: {
+        minLng: data._min._lng,
+        minLat: data._min._lat,
+        maxLng: data._max._lng,
+        maxLat: data._max._lat,
+        offset: data.offset || 0,
+        limit: data.limit || 20,
+        category: data.category || '',
+      },
+    });
+    set(locationsAtom, res);
+    return res;
+  } catch (err) {
+    throw err;
+  } finally {
+    set(isLoadingAtom, false);
+    set(isPopupOpenAtom, false);
+  }
 
-  set(locationsAtom, res);
-  set(isLoadingAtom, false);
-  set(isPopupOpenAtom, false);
-
-  return res;
 });
 
 export const findLocationAtom = atom(null, async (get, set, data) => {
@@ -98,8 +102,6 @@ export const findMoreReviewsAtom = atom(null, async (get, set, data) => {
 
 export const setActiveReviewAtom = atom(null, async (get, set, review) => {
   try {
-    set(activeReviewAtom, review);
-
     const likeCount = await findReviewLikeCount({ params: { id: review.id } });
 
     if (likeCount !== review.likeCount) {
@@ -110,4 +112,4 @@ export const setActiveReviewAtom = atom(null, async (get, set, review) => {
   } catch (err) {
     // NOTHING
   }
-})
+});

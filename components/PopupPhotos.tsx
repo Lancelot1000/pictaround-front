@@ -3,14 +3,15 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { Fragment } from 'react';
 
 import useFetcher from '@/app/hooks/useFetcher';
-import { findMoreReviewsAtom, locationAtom, reviewsAtom, setActiveReviewAtom } from '@/atom/search';
+import { activeReviewAtom, findMoreReviewsAtom, locationAtom, reviewsAtom, setActiveReviewAtom } from '@/atom/search';
 import CommonImage from '@/components/CommonImage';
 
 export default function Component({ scrollTop }: { scrollTop: () => void }) {
   const reviews: ReviewList = useAtomValue(reviewsAtom);
   const location: SingleLocation = useAtomValue(locationAtom);
 
-  const setActiveReview = useSetAtom(setActiveReviewAtom);
+  const setActiveReview = useSetAtom(activeReviewAtom);
+  const handleActiveReview = useSetAtom(setActiveReviewAtom);
   const findMoreReviews = useSetAtom(findMoreReviewsAtom);
 
   const findMoreReviewsHandler = async () => {
@@ -23,15 +24,16 @@ export default function Component({ scrollTop }: { scrollTop: () => void }) {
 
   const onImageClickHandler = (review: Review) => {
     scrollTop();
+    setActiveReview(review);
     setTimeout(() => {
-      setActiveReview(review);
+      handleActiveReview(review);
     }, 1000);
   };
 
   const { isLoading, invokeFetch } = useFetcher({ apiCall: findMoreReviewsHandler });
 
   return (
-    <div className={'flex flex-wrap justify-between gap-y-2 p-4'}>
+    <div className={'flex flex-wrap gap-y-2 gap-2 p-4'}>
       {reviews.items.map((review: Review) => {
         return (
           <CommonImage

@@ -3,7 +3,7 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    domains: ['picsum.photos'],
+    domains: ['picsum.photos', 'awzn-s3-pickaround.s3.ap-northeast-2.amazonaws.com'],
     formats: ['image/webp', 'image/avif'],
   },
   publicRuntimeConfig: {

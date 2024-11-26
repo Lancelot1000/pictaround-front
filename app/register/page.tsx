@@ -92,16 +92,19 @@ export default function Page() {
 
   const onFileUploadHandler = async (file: File) => {
     try {
-      const resizeImage = await resizeFile(file);
-      const blob = new Blob([resizeImage], { type: 'image/jpeg' }); // MIME 타입 확인
-      const transferedFile = new File([blob], file.name, { type: 'image/jpeg' });
+      // TODO: 추후 자동 resize 로직 추가
+      if (file.size > 1024 * 1024 * 2) {
+        setErrorMessage('파일 최대 크기는 2MB입니다.');
+        errorModalOpen();
+        return;
+      }
 
       const imageLocation = await uploadImage({
         route: 'reviews/',
         filename: file.name,
-        extension: 'jpeg',
-        type: 'image/jpeg',
-        file: transferedFile,
+        extension: file.type.split('/')[1],
+        type: file.type,
+        file: file,
       });
 
       form.setValue('imageLocation', imageLocation);
@@ -184,15 +187,9 @@ export default function Page() {
           />
         )}
         <div className={'my-4'}>
-          <Input label={'설명'} id={'comment'} placeholder={'이 곳을 한 줄로 나타낸다면?'} maxLength={40} />
+          <Input label={'한줄평 (최대 40자)'} id={'comment'} placeholder={'이 곳을 한 줄로 나타낸다면?'} maxLength={40} />
         </div>
         <div className={'my-[20px]'}>
-          {!myInfo?.nickname && (
-            <div className={'p-10 border border-yellow-200 bg-yellow-100 border-dashed mb-[20px]'}>
-              <p className={'text-center'}>비회원인 경우, <span className={'logo'}>PictAround</span> 내에 등록되지 않은 장소만 등록가능합니다.
-              </p>
-            </div>
-          )}
           <Button
             label={'등록'}
             type={'submit'}
@@ -221,10 +218,10 @@ export default function Page() {
 
           {
             size: 's',
-            label: '홈으로',
+            label: '둘러보기',
             onClick: () => {
               successModalClose();
-              router.push('/');
+              router.push('/search');
             },
             style: { backgroundColor: 'gray' },
           },
