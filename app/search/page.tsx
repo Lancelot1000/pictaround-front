@@ -15,19 +15,16 @@ export default function Page() {
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(position => {
-      // console.log(position);
       setCoordinates([position.coords.longitude, position.coords.latitude]);
     });
   }, []);
 
   return (
-    <div>
+    <Suspense fallback={null}>
       <Categories />
       <Map loc={coordinates} popupOpenAction={open} />
-      <Suspense fallback={<div>LOADING___!!!</div>}>
-        <Photos popupOpenAction={open} />
-      </Suspense>
+      <Photos popupOpenAction={open} />
       <LocationInfoComponent />
-    </div>
+    </Suspense>
   );
 }

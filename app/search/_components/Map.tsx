@@ -111,7 +111,7 @@ export default function Map({ loc, popupOpenAction }: { loc: Coordinates, popupO
       window.naver.maps.Event.clearListeners(mapRef.current);
     };
 
-  }, [mapRef.current]);
+  }, [!!mapRef?.current]);
 
   const researchLocation = () => {
     const { _min, _max } = mapRef.current.getBounds();

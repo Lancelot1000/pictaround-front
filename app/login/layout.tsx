@@ -1,7 +1,9 @@
+export const dynamic = 'force-dynamic';
+
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { Fragment, ReactNode } from 'react';
+import { Fragment, ReactNode, Suspense } from 'react';
 
 export default async function LoginLayout({ children }: { children: ReactNode }) {
   let userSession: RequestCookie | undefined;
@@ -17,5 +19,11 @@ export default async function LoginLayout({ children }: { children: ReactNode })
     redirect('/');
   }
 
-  return <Fragment>{children}</Fragment>;
+  return (
+    <Fragment>
+      <Suspense fallback={null}>
+        {children}
+      </Suspense>
+    </Fragment>
+  );
 }
