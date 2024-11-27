@@ -90,24 +90,23 @@ export default function Page() {
   const onFileUploadHandler = async (file: File) => {
     try {
       // TODO: 추후 자동 resize 로직 추가
-      if (file.size > 1024 * 1024 * 2) {
-        setErrorMessage('파일 최대 크기는 2MB입니다.');
+      if (file.size > 1024 * 1024 * 5) {
+        setErrorMessage('파일 최대 크기는 5MB입니다.');
         errorModalOpen();
         return;
+      } else {
+        const imageLocation = await uploadImage({
+          route: 'reviews/',
+          filename: file.name,
+          extension: file.type.split('/')[1],
+          type: file.type,
+          file: file,
+        });
+
+        form.setValue('imageLocation', imageLocation);
+
+        setBlobImage(window.URL.createObjectURL(file));
       }
-
-      const imageLocation = await uploadImage({
-        route: 'reviews/',
-        filename: file.name,
-        extension: file.type.split('/')[1],
-        type: file.type,
-        file: file,
-      });
-
-      form.setValue('imageLocation', imageLocation);
-
-      setBlobImage(window.URL.createObjectURL(file));
-
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setErrorMessage('일시적인 오류입니다.\n다시 시도해주세요.');
